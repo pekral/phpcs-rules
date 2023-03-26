@@ -205,6 +205,11 @@
         </properties>
         <exclude-pattern>tests/*</exclude-pattern>
     </rule>
+    <rule ref="SlevomatCodingStandard.Classes.EnumCaseSpacing"/>
+    <rule ref="SlevomatCodingStandard.Classes.RequireSelfReference"/>
+    <rule ref="SlevomatCodingStandard.Variables.DisallowVariableVariable"/>
+    <rule ref="SlevomatCodingStandard.ControlStructures.DisallowTrailingMultiLineTernaryOperator"/>
+    <rule ref="SlevomatCodingStandard.Arrays.AlphabeticallySortedByKeys"/>
 
     <!-- Enable after refactoring -->
     <exclude name="SlevomatCodingStandard.Commenting.DeprecatedAnnotationDeclaration"/>
