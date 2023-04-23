@@ -213,6 +213,7 @@
     <rule ref="SlevomatCodingStandard.Classes.DisallowStringExpressionPropertyFetch"/>
     <rule ref="SlevomatCodingStandard.Strings.DisallowVariableParsing"/>
     <rule ref="SlevomatCodingStandard.Arrays.DisallowPartiallyKeyed"/>
+    <rule ref="SlevomatCodingStandard.Commenting.AnnotationName/>
 
     <!-- Enable after refactoring -->
     <exclude name="SlevomatCodingStandard.Commenting.DeprecatedAnnotationDeclaration"/>
