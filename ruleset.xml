@@ -215,7 +215,4 @@
     <rule ref="SlevomatCodingStandard.Arrays.DisallowPartiallyKeyed"/>
     <rule ref="SlevomatCodingStandard.Commenting.AnnotationName"/>
     <rule ref="SlevomatCodingStandard.Arrays.ArrayAccess"/>
-
-    <!-- Enable after refactoring -->
-    <exclude name="SlevomatCodingStandard.Commenting.DeprecatedAnnotationDeclaration"/>
 </ruleset>
