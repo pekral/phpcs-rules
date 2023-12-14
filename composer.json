@@ -3,7 +3,7 @@
   "description": "PHPCS - custom rule set",
   "license": ["MIT"],
   "require": {
-    "php": "^8.1",
+    "php": "^8.3",
     "slevomat/coding-standard": "^8.14.1"
   },
   "minimum-stability": "dev",
