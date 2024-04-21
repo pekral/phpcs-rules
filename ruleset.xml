@@ -321,4 +321,5 @@
     <rule ref="PSR2.Methods.FunctionClosingBrace" />
     <rule ref="Squiz.Functions.FunctionDeclaration" />
     <rule ref="Squiz.Functions.LowercaseFunctionKeywords" />
+    <rule ref="SlevomatCodingStandard.Functions.NamedArgumentSpacing"/>
 </ruleset>

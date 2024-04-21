@@ -4,7 +4,7 @@
   "license": ["MIT"],
   "require": {
     "php": "^8.3",
-    "slevomat/coding-standard": "^8.14.1"
+    "slevomat/coding-standard": "^8.15"
   },
   "minimum-stability": "dev",
   "prefer-stable": true,
