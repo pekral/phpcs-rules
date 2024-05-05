@@ -2,6 +2,18 @@
   "name": "pekral/phpcs-rules",
   "description": "PHPCS - custom rule set",
   "license": ["MIT"],
+  "keywords": [
+    "PHP",
+    "Code sniffer",
+    "Rule set"
+  ],
+  "authors": [
+    {
+      "name": "Petr Král",
+      "email": "kral.petr.88@gmail.com",
+      "role": "lead"
+    }
+  ],
   "require": {
     "php": "^8.3",
     "slevomat/coding-standard": "^8.15"
