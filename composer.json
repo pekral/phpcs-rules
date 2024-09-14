@@ -17,6 +17,10 @@
   "require": {
     "php": "^8.3",
     "slevomat/coding-standard": "^8.15"
+  }
+  ,
+  "require-dev": {
+    "roave/security-advisories": "dev-latest"
   },
   "minimum-stability": "dev",
   "prefer-stable": true,
