@@ -333,5 +333,19 @@
         </properties>
     </rule>
 
+    <rule ref="Squiz.Classes.ValidClassName"/>
+    <rule ref="Squiz.Classes.ClassFileName"/>
+    <rule ref="SlevomatCodingStandard.TypeHints.ClassConstantTypeHint"/>
+    <rule ref="SlevomatCodingStandard.TypeHints.DNFTypeHintFormat">
+        <properties>
+            <property name="withSpacesAroundOperators" value="no"/>
+            <property name="withSpacesInsideParentheses" value="no"/>
+            <property name="shortNullable" value="yes"/>
+            <property name="nullPosition" value="first"/>
+        </properties>
+    </rule>
+
+    <rule ref="SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingNativeTypeHint"/>
+
 
 </ruleset>

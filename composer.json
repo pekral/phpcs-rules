@@ -15,8 +15,8 @@
     }
   ],
   "require": {
-    "php": "^8.3",
-    "slevomat/coding-standard": "^8.15"
+    "php": "^8.4",
+    "slevomat/coding-standard": "^8.18"
   }
   ,
   "require-dev": {
