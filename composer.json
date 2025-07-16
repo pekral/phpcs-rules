@@ -1,11 +1,23 @@
 {
   "name": "pekral/phpcs-rules",
-  "description": "PHPCS - custom rule set",
+  "description": "Custom ruleset for PHP_CodeSniffer (PHPCS) with additional rules and configuration, based on Slevomat Coding Standard. Helps to enforce consistent code style and best practices in PHP projects.",
   "license": ["MIT"],
   "keywords": [
-    "PHP",
-    "Code sniffer",
-    "Rule set"
+    "phpcs",
+    "php-codesniffer",
+    "coding-standard",
+    "code-style",
+    "code-quality",
+    "custom-ruleset",
+    "slevomat",
+    "php",
+    "sniffer",
+    "static-analysis",
+    "best-practices",
+    "lint",
+    "ci",
+    "psr12",
+    "ruleset"
   ],
   "authors": [
     {
