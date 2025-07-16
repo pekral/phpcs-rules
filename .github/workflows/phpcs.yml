@@ -1,0 +1,32 @@
+name: PHPCS
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - '**.php'
+      - 'ruleset.xml'
+      - 'composer.json'
+  pull_request:
+    branches: [master]
+    paths:
+      - '**.php'
+      - 'ruleset.xml'
+      - 'composer.json'
+
+jobs:
+  phpcs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/cache@v4
+        with:
+          path: ~/.composer/cache
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+      - run: composer install --prefer-dist --no-progress --no-suggest
+      - run: vendor/bin/phpcs --standard=ruleset.xml Examples/
