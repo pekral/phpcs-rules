@@ -39,6 +39,9 @@
       "homepage": "https://github.com/pekral"
     }
   ],
+  "scripts": {
+    "fix": "vendor/bin/phpcbf --standard=ruleset.xml Example/ build/"
+  },
   "require": {
     "php": "^8.4",
     "slevomat/coding-standard": "^8.19.1"
