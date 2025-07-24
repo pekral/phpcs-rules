@@ -1,7 +1,7 @@
 {
   "name": "pekral/phpcs-rules",
   "description": "Custom ruleset for PHP_CodeSniffer (PHPCS) with additional rules and configuration, based on Slevomat Coding Standard. Helps to enforce consistent code style and best practices in PHP projects.",
-  "license": ["MIT"],
+  "type": "library",
   "keywords": [
     "phpcs",
     "php-codesniffer",
@@ -17,20 +17,32 @@
     "lint",
     "ci",
     "psr12",
-    "ruleset"
+    "ruleset",
+    "composer-package",
+    "open-source"
   ],
+  "homepage": "https://github.com/pekral/phpcs-rules",
+  "support": {
+    "issues": "https://github.com/pekral/phpcs-rules/issues",
+    "source": "https://github.com/pekral/phpcs-rules",
+    "docs": "https://github.com/pekral/phpcs-rules#readme"
+  },
+  "funding": [
+    { "type": "github", "url": "https://github.com/sponsors/pekral" }
+  ],
+  "license": "MIT",
   "authors": [
     {
       "name": "Petr Král",
       "email": "kral.petr.88@gmail.com",
-      "role": "lead"
+      "role": "lead",
+      "homepage": "https://github.com/pekral"
     }
   ],
   "require": {
     "php": "^8.4",
     "slevomat/coding-standard": "^8.19.1"
-  }
-  ,
+  },
   "require-dev": {
     "roave/security-advisories": "dev-latest"
   },
@@ -39,6 +51,11 @@
   "config": {
     "allow-plugins": {
       "dealerdirect/phpcodesniffer-composer-installer": true
+    }
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "0.4.x-dev"
     }
   }
 }
