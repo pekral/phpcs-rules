@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace Example\Classes;
 
-class DisallowLateStaticBindingForConstants
+final class DisallowLateStaticBindingForConstants
 {
 
     public const int FOO = 1;

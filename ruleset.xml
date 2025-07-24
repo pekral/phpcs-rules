@@ -78,6 +78,7 @@
     <rule ref="SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingNativeTypeHint" />
 
     <!-- ========================= Class rules ========================== -->
+    <rule ref="SlevomatCodingStandard.Classes.RequireAbstractOrFinal" />
     <rule ref="SlevomatCodingStandard.Classes.ClassStructure" />
     <rule ref="SlevomatCodingStandard.Classes.DisallowLateStaticBindingForConstants" />
     <rule ref="SlevomatCodingStandard.Classes.UselessLateStaticBinding" />
