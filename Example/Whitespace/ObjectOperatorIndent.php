@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace Example\Whitespace;
 
-class Helper
+final class Helper
 {
 
     public function getValue(): int
