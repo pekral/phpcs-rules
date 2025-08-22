@@ -7,10 +7,9 @@ namespace Example\Whitespace;
 final class OperatorSpacing
 {
 
-    public function foo(int $a, int $b): int
+    public function example(): void
     {
-        // Correct spacing around operators
-        return $a + $b * 2;
+        // Whitespace formatting example
     }
 
-} 
+}

@@ -5,15 +5,15 @@ declare(strict_types = 1);
 namespace Example\Commenting;
 
 /**
- * Třída s ukázkovým doc komentářem
+ * Class with example doc comment
  *
- * Další popis
+ * Additional description
  */
 final class DocCommentSpacing
 {
 
     /**
-     * Vrací číslo
+     * Returns a number
      */
     public function foo(): int
     {

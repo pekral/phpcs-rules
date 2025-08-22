@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace Example\Whitespace;
 
-final class ObjectOperatorIndent
+final class DuplicateSpaces
 {
 
     public function example(): void

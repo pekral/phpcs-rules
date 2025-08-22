@@ -6,5 +6,5 @@ tests/.DS_Store
 /.phpunit.result.cache
 composer.lock
 
-# Ignoruj build skripty
+# Ignore build scripts
 build/

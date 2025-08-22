@@ -7,10 +7,9 @@ namespace Example\Whitespace;
 final class DisallowTabIndent
 {
 
-    public function foo(): void
+    public function example(): void
     {
-        // Indentation uses spaces, not tabs
-        echo 'spaces only';
+        // Whitespace formatting example
     }
 
-} 
+}
