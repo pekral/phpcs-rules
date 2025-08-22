@@ -181,6 +181,13 @@
         </properties>
     </rule>
     <rule ref="SlevomatCodingStandard.ControlStructures.DisallowTrailingMultiLineTernaryOperator" />
+    <rule ref="SlevomatCodingStandard.Files.LineLength">
+        <properties>
+            <property name="lineLengthLimit" value="120" />
+            <property name="ignoreComments" value="true" />
+            <property name="ignoreImports" value="true" />
+        </properties>
+    </rule>
 
     <!-- ========================= Function rules ========================== -->
     <rule ref="SlevomatCodingStandard.Functions.StrictCall" />
