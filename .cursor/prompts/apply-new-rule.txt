@@ -1,5 +1,3 @@
-Dopiš examples pro pravidlo Dopiš examples pro pravidlo SlevomatCodingStandard.Classes.DisallowMultiConstantDefinition
-
 - Zajisti aby příkaz composer check byl bez chyb, pro automatické fixování chyb použíj příkaz composer fix.
 - Zkontroluj, že toto pravidlo je definované v souboru rules.xml.
 - Analyzuj tuto pravidlo v composer adresáři a zjisti, jestli example soubor je napsaný přesně tak, jaká je logika pravidla. POkud ne uprav Example soubor tak, aby odpovídal logice pravidla.
