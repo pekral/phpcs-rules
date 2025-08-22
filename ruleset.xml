@@ -221,6 +221,7 @@
     <!-- ========================= PHP rules ========================== -->
     <rule ref="SlevomatCodingStandard.PHP.DisallowDirectMagicInvokeCall" />
     <rule ref="SlevomatCodingStandard.PHP.ForbiddenClasses" />
+    <rule ref="SlevomatCodingStandard.Strings.DisallowVariableParsing" />
     <rule ref="SlevomatCodingStandard.PHP.RequireNowdoc" />
     <rule ref="SlevomatCodingStandard.PHP.OptimizedFunctionsWithoutUnpacking" />
     <rule ref="SlevomatCodingStandard.PHP.UselessSemicolon" />
