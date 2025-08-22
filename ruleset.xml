@@ -221,10 +221,13 @@
 
     <!-- ========================= PHP rules ========================== -->
     <rule ref="SlevomatCodingStandard.PHP.DisallowDirectMagicInvokeCall" />
+    <rule ref="SlevomatCodingStandard.Classes.DisallowMultiConstantDefinition" />
     <rule ref="SlevomatCodingStandard.PHP.ForbiddenClasses" />
+    <rule ref="SlevomatCodingStandard.Strings.DisallowVariableParsing" />
     <rule ref="SlevomatCodingStandard.PHP.RequireNowdoc" />
     <rule ref="SlevomatCodingStandard.PHP.OptimizedFunctionsWithoutUnpacking" />
     <rule ref="SlevomatCodingStandard.PHP.UselessSemicolon" />
+    <rule ref="SlevomatCodingStandard.Numbers.RequireNumericLiteralSeparator" />
     <rule ref="SlevomatCodingStandard.PHP.ShortList" />
     <rule ref="SlevomatCodingStandard.PHP.TypeCast" />
     <rule ref="SlevomatCodingStandard.PHP.ReferenceSpacing" />
@@ -237,7 +240,6 @@
     <rule ref="SlevomatCodingStandard.Operators.SpreadOperatorSpacing" />
 
     <!-- ========================= Number rules ========================== -->
-    <rule ref="SlevomatCodingStandard.Numbers.DisallowNumericLiteralSeparator" />
 
     <!-- ========================= File and class length rules ========================== -->
     <rule ref="SlevomatCodingStandard.Files.FileLength">
