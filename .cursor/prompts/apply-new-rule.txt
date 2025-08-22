@@ -1,5 +1,6 @@
-Dopiš examples pro pravidlo SlevomatCodingStandard.Attributes.RequireAttributeAfterDocComment
+Dopiš examples pro pravidlo Dopiš examples pro pravidlo SlevomatCodingStandard.Strings.DisallowVariableParsing
 
-
-- Zajisti aby příkaz composer check byl bez chyb, pro autimatické fixování chyb použíj příkaz composer fix.
+- Zajisti aby příkaz composer check byl bez chyb, pro automatické fixování chyb použíj příkaz composer fix.
 - Zkontroluj, že toto pravidlo je definované v souboru rules.xml.
+- Analyzuj tuto pravidlo v composer adresáři a zjisti, jestli example soubor je napsaný přesně tak, jaká je logika pravidla. POkud ne uprav Example soubor tak, aby odpovídal logice pravidla.
+- Zajisti aby příkaz composer check byl bez chyb, pro automatické fixování chyb použíj příkaz composer fix.
