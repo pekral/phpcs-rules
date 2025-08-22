@@ -1,0 +1,5 @@
+Dopiš examples pro pravidlo SlevomatCodingStandard.Attributes.RequireAttributeAfterDocComment
+
+
+- Zajisti aby příkaz composer check byl bez chyb, pro autimatické fixování chyb použíj příkaz composer fix.
+- Zkontroluj, že toto pravidlo je definované v souboru rules.xml.
