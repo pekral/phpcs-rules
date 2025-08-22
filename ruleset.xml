@@ -181,6 +181,7 @@
         </properties>
     </rule>
     <rule ref="SlevomatCodingStandard.ControlStructures.DisallowTrailingMultiLineTernaryOperator" />
+    <rule ref="SlevomatCodingStandard.ControlStructures.RequireSingleLineCondition" />
     <rule ref="SlevomatCodingStandard.Files.LineLength">
         <properties>
             <property name="lineLengthLimit" value="120" />
