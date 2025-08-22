@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace Example\Classes;
 
-class Base
+final class Base
 {
 
     public function foo(): void {
