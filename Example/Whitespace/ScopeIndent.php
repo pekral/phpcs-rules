@@ -7,11 +7,9 @@ namespace Example\Whitespace;
 final class ScopeIndent
 {
 
-    public function foo(): void
+    public function example(): void
     {
-        if (true) {
-            echo 'indented';
-        }
+        // Whitespace formatting example
     }
 
-} 
+}

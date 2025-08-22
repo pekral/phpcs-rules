@@ -1,4 +1,4 @@
-name: PHPCS
+name: PHPCS Validation
 
 on:
   push:
@@ -15,19 +15,27 @@ on:
       - 'composer.json'
 
 jobs:
-  phpcs:
+  phpcs-validation:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/cache@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Cache Composer dependencies
+        uses: actions/cache@v4
         with:
           path: ~/.composer/cache
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
           restore-keys: |
             ${{ runner.os }}-composer-
-      - uses: shivammathur/setup-php@v2
+            
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
         with:
           php-version: '8.4'
-      - run: composer install --prefer-dist --no-progress --no-suggest
-      - name: PHPCS Valid
-        run: vendor/bin/phpcs --standard=ruleset.xml Example/
+          
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress --no-suggest
+        
+      - name: PHPCS Validation
+        run: composer check

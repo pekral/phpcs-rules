@@ -40,7 +40,9 @@
     }
   ],
   "scripts": {
-    "fix": "vendor/bin/phpcbf --standard=ruleset.xml Example/ build/"
+    "check": "vendor/bin/phpcs --standard=ruleset.xml -sp Example/ build/",
+    "fix": "vendor/bin/phpcbf --standard=ruleset.xml -sp Example/ build/",
+    "analyze": "php build/analyze-missing-examples.php"
   },
   "require": {
     "php": "^8.4",
