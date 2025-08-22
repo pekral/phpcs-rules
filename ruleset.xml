@@ -64,7 +64,7 @@
     <rule ref="SlevomatCodingStandard.TypeHints.NullTypeHintOnLastPosition" />
     <rule ref="SlevomatCodingStandard.TypeHints.ReturnTypeHintSpacing" />
     <rule ref="SlevomatCodingStandard.TypeHints.NullableTypeForNullDefaultValue" />
-    <rule ref="SlevomatCodingStandard.TypeHints.UnionTypeHintFormat" />
+
     <rule ref="SlevomatCodingStandard.TypeHints.ParameterTypeHintSpacing" />
     <rule ref="SlevomatCodingStandard.TypeHints.ClassConstantTypeHint" />
     <rule ref="SlevomatCodingStandard.TypeHints.DNFTypeHintFormat">
@@ -308,7 +308,13 @@
     </rule>
     <rule ref="Squiz.PHP.DiscouragedFunctions">
         <properties>
-            <property name="forbiddenFunctions" type="array" value="dump=>null,dd=>null,error_log=>null,var_dump=>null,die=>null" />
+            <property name="forbiddenFunctions" type="array">
+                <element key="dump" value="null" />
+                <element key="dd" value="null" />
+                <element key="error_log" value="null" />
+                <element key="var_dump" value="null" />
+                <element key="die" value="null" />
+            </property>
         </properties>
     </rule>
     <rule ref="Squiz.Functions.FunctionDeclaration" />
