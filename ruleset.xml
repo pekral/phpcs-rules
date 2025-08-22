@@ -251,6 +251,7 @@
 
     <!-- ========================= Whitespace and formatting rules ========================== -->
     <rule ref="SlevomatCodingStandard.Whitespaces.DuplicateSpaces" />
+    <rule ref="SlevomatCodingStandard.Attributes.RequireAttributeAfterDocComment" />
     <rule ref="Generic.WhiteSpace.ScopeIndent">
         <properties>
             <property name="indent" value="4" />

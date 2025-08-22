@@ -36,7 +36,6 @@ $ignoredRules = [
     'SlevomatCodingStandard.Attributes.DisallowAttributesJoining',
     'SlevomatCodingStandard.Attributes.AttributeAndTargetSpacing',
     'SlevomatCodingStandard.Attributes.AttributesOrder',
-    'SlevomatCodingStandard.Attributes.RequireAttributeAfterDocComment',
     'SlevomatCodingStandard.Namespaces.FullyQualifiedExceptions',
     'SlevomatCodingStandard.PHP.RequireExplicitAssertion',
     'SlevomatCodingStandard.Operators.RequireOnlyStandaloneIncrementAndDecrementOperators',
