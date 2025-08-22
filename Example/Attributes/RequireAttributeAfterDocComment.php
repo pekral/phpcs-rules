@@ -84,11 +84,10 @@ final class RequireAttributeAfterDocComment
      * Attributes should NOT come BEFORE the doc comment
      */
     // This should trigger the rule
-    #[Route('/api/users/{id}', methods: ['DELETE'])]
-    // This should trigger the rule
     /**
      * Delete a user
      */
+    #[Route('/api/users/{id}', methods: ['DELETE'])]
     #[Security("is_granted('ROLE_ADMIN')")]
     public function deleteUser(int $id): void
     {
