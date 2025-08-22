@@ -220,6 +220,7 @@
 
     <!-- ========================= PHP rules ========================== -->
     <rule ref="SlevomatCodingStandard.PHP.DisallowDirectMagicInvokeCall" />
+    <rule ref="SlevomatCodingStandard.Classes.DisallowMultiConstantDefinition" />
     <rule ref="SlevomatCodingStandard.PHP.ForbiddenClasses" />
     <rule ref="SlevomatCodingStandard.Strings.DisallowVariableParsing" />
     <rule ref="SlevomatCodingStandard.PHP.RequireNowdoc" />
