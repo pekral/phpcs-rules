@@ -300,7 +300,12 @@
     <rule ref="Squiz.NamingConventions.ValidVariableName.NotCamelCaps"/>
 
     <!-- ========================= Miscellaneous rules ========================== -->
-    <rule ref="SlevomatCodingStandard.Complexity.Cognitive"/>
+    <rule ref="SlevomatCodingStandard.Complexity.Cognitive">
+        <properties>
+            <property name="warningThreshold" value="7"/>
+            <property name="errorThreshold" value="7"/>
+        </properties>
+    </rule>
     <rule ref="Squiz.PHP.DiscouragedFunctions">
         <properties>
             <property name="forbiddenFunctions" type="array" value="dump=>null,dd=>null,error_log=>null,var_dump=>null,die=>null" />

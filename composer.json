@@ -44,7 +44,7 @@
   },
   "require": {
     "php": "^8.4",
-    "slevomat/coding-standard": "^8.19.1"
+    "slevomat/coding-standard": "^8.20.0"
   },
   "require-dev": {
     "roave/security-advisories": "dev-latest"
