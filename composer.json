@@ -56,7 +56,8 @@
     "symfony/console": "^7.3",
     "illuminate/collections": "^12.25",
     "phpunit/phpunit": "^12.3",
-    "mockery/mockery": "^1.6"
+    "mockery/mockery": "^1.6",
+    "pekral/cursor-rules": "^0.1.1"
   },
   "autoload": {
     "psr-4": {

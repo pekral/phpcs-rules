@@ -35,18 +35,14 @@ final class SniffHelper
     public static function getAllSniffsFromRuleset(string $rulesetFilePath): array
     {
         $ruleset = file_get_contents($rulesetFilePath);
-        
-        // Extract all rule references (both active and excluded)
         $allSniffs = [];
         
-        // Extract active rules: <rule ref="SlevomatCodingStandard.Category.RuleName" />
         preg_match_all('/<rule ref="(SlevomatCodingStandard\\.[^"]+)"/', $ruleset, $ruleMatches);
 
         if (is_array($ruleMatches[1])) {
             $allSniffs = array_merge($allSniffs, $ruleMatches[1]);
         }
         
-        // Extract excluded rules: <exclude name="SlevomatCodingStandard.Category.RuleName" />
         preg_match_all('/<exclude name="(SlevomatCodingStandard\\.[^"]+)"/', $ruleset, $excludeMatches);
 
         if ($excludeMatches[1]) {

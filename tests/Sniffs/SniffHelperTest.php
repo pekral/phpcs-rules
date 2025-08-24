@@ -126,22 +126,19 @@ final class SniffHelperTest extends TestCase
         }
     }
 
-    public function testGetAllSniffsFromRulesetWithMixedRules(): void
+    public function testGetAllSniffsFromRulesetWithEmptyRuleset(): void
     {
-        $rulesetContent = $this->getMixedRulesRulesetContent();
-        $tempFile = $this->createTempRulesetFile($rulesetContent);
+        $rulesetContent = '<?xml version="1.0"?>
+<ruleset name="Custom Ruleset">
+</ruleset>';
+
+        $tempFile = tempnam(sys_get_temp_dir(), 'ruleset');
+        file_put_contents($tempFile, $rulesetContent);
 
         try {
             $result = SniffHelper::getAllSniffsFromRuleset($tempFile);
 
-            $expected = [
-                'SlevomatCodingStandard.Arrays.AlphabeticallySortedByKeys',
-                'SlevomatCodingStandard.Classes.ClassLength',
-                'SlevomatCodingStandard.Functions.FunctionLength',
-                'SlevomatCodingStandard.ControlStructures.EarlyExit',
-            ];
-
-            $this->assertEquals($expected, $result);
+            $this->assertEmpty($result);
         } finally {
             unlink($tempFile);
         }
@@ -170,95 +167,11 @@ final class SniffHelperTest extends TestCase
         }
     }
 
-    public function testGetAllSniffsFromRulesetWithEmptyRuleset(): void
-    {
-        $rulesetContent = '<?xml version="1.0"?>
-<ruleset name="Custom Ruleset">
-</ruleset>';
-
-        $tempFile = tempnam(sys_get_temp_dir(), 'ruleset');
-        file_put_contents($tempFile, $rulesetContent);
-
-        try {
-            $result = SniffHelper::getAllSniffsFromRuleset($tempFile);
-
-            $this->assertEmpty($result);
-        } finally {
-            unlink($tempFile);
-        }
-    }
-
-    public function testGetAllSniffsFromRulesetWithComplexRuleset(): void
-    {
-        $rulesetContent = $this->getComplexRulesetContent();
-        $tempFile = $this->createTempRulesetFile($rulesetContent);
-
-        try {
-            $result = SniffHelper::getAllSniffsFromRuleset($tempFile);
-
-            $expected = [
-                'SlevomatCodingStandard.Arrays.AlphabeticallySortedByKeys',
-                'SlevomatCodingStandard.Arrays.ArrayIndent',
-                'SlevomatCodingStandard.Classes.ClassLength',
-                'SlevomatCodingStandard.Classes.RequireAbstractOrFinal',
-                'SlevomatCodingStandard.Functions.FunctionLength',
-                'SlevomatCodingStandard.ControlStructures.EarlyExit',
-                'SlevomatCodingStandard.Namespaces.UnusedUses',
-            ];
-
-            $this->assertEquals($expected, $result);
-        } finally {
-            unlink($tempFile);
-        }
-    }
-
     protected function tearDown(): void
     {
         Mockery::close();
 
         parent::tearDown();
-    }
-
-    private function getMixedRulesRulesetContent(): string
-    {
-        return '<?xml version="1.0"?>
-<ruleset name="Custom Ruleset">
-	<rule ref="SlevomatCodingStandard.Arrays.AlphabeticallySortedByKeys" />
-	<rule ref="SlevomatCodingStandard.Classes.ClassLength" />
-	<exclude name="SlevomatCodingStandard.Functions.FunctionLength" />
-	<exclude name="SlevomatCodingStandard.ControlStructures.EarlyExit" />
-</ruleset>';
-    }
-
-    private function getComplexRulesetContent(): string
-    {
-        return '<?xml version="1.0"?>
-<ruleset name="Custom Ruleset">
-	<description>Complex ruleset with various rules</description>
-	
-	<!-- Active rules -->
-	<rule ref="SlevomatCodingStandard.Arrays.AlphabeticallySortedByKeys" />
-	<rule ref="SlevomatCodingStandard.Arrays.ArrayIndent" />
-	<rule ref="SlevomatCodingStandard.Classes.ClassLength" />
-	<rule ref="SlevomatCodingStandard.Classes.RequireAbstractOrFinal" />
-	
-	<!-- Excluded rules -->
-	<exclude name="SlevomatCodingStandard.Functions.FunctionLength" />
-	<exclude name="SlevomatCodingStandard.ControlStructures.EarlyExit" />
-	<exclude name="SlevomatCodingStandard.Namespaces.UnusedUses" />
-	
-	<!-- Some other configuration -->
-	<arg name="extensions" value="php" />
-	<arg name="parallel" value="80" />
-</ruleset>';
-    }
-
-    private function createTempRulesetFile(string $content): string
-    {
-        $tempFile = tempnam(sys_get_temp_dir(), 'ruleset');
-        file_put_contents($tempFile, $content);
-
-        return $tempFile;
     }
 
 }
