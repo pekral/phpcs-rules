@@ -40,7 +40,7 @@
     }
   ],
   "scripts": {
-    "build": "composer fix && composer check && composer check-unused-sniffs",
+    "build": "composer fix && composer check && composer check-unused-sniffs && git gone",
     "check": "vendor/bin/phpcs --standard=ruleset.xml -sp Example/ src/",
     "check-unused-sniffs": "php build.php build:check-unused-sniffs",
     "fix": "vendor/bin/phpcbf --standard=ruleset.xml -sp Example/ src/"
