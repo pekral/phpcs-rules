@@ -9,7 +9,7 @@ final class DisallowSuperGlobalVariable
 
     public function example(): void
     {
-        // Example without using superglobals (fixed version)
+        // Examples without using superglobals (fixed version)
         $data = $this->getPostData('data');
         $cookie = $this->getCookieData('session');
         $server = $this->getServerData('HTTP_HOST');

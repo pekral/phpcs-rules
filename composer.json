@@ -41,9 +41,9 @@
   ],
   "scripts": {
     "build": "composer fix && composer check && composer check-unused-sniffs && composer test && git gone",
-    "check": "vendor/bin/phpcs --standard=ruleset.xml -sp Example/ src/ tests/",
+    "check": "vendor/bin/phpcs --standard=ruleset.xml -sp Examples/ src/ tests/",
     "check-unused-sniffs": "php build.php build:check-unused-sniffs",
-    "fix": "vendor/bin/phpcbf --standard=ruleset.xml -sp Example/ src/ tests/",
+    "fix": "vendor/bin/phpcbf --standard=ruleset.xml -sp Examples/ src/ tests/",
     "test": "vendor/bin/phpunit",
     "test:coverage": "vendor/bin/phpunit --coverage-html coverage-report"
   },

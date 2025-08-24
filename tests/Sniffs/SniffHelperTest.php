@@ -20,7 +20,7 @@ final class SniffHelperTest extends TestCase
             ->andReturn('ArrayIndentSniff.php');
         $fileInfo->shouldReceive('getPath')
             ->once()
-            ->andReturn('Example/Arrays');
+            ->andReturn('Examples/Arrays');
 
         $result = SniffHelper::getSniffName($fileInfo);
 
@@ -35,7 +35,7 @@ final class SniffHelperTest extends TestCase
             ->andReturn('PropertyDeclarationSniff.php');
         $fileInfo->shouldReceive('getPath')
             ->once()
-            ->andReturn('Example/Classes/PropertyDeclaration');
+            ->andReturn('Examples/Classes/PropertyDeclaration');
 
         $result = SniffHelper::getSniffName($fileInfo);
 
@@ -50,7 +50,7 @@ final class SniffHelperTest extends TestCase
             ->andReturn('Helper.php');
         $fileInfo->shouldReceive('getPath')
             ->once()
-            ->andReturn('Example/Utilities');
+            ->andReturn('Examples/Utilities');
 
         $result = SniffHelper::getSniffName($fileInfo);
 
@@ -65,7 +65,7 @@ final class SniffHelperTest extends TestCase
             ->andReturn('SniffHelperSniff.php');
         $fileInfo->shouldReceive('getPath')
             ->once()
-            ->andReturn('Example/Helpers');
+            ->andReturn('Examples/Helpers');
 
         $result = SniffHelper::getSniffName($fileInfo);
 

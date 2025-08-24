@@ -9,7 +9,7 @@ final class DisallowVariableVariable
 
     public function example(): void
     {
-        // Example without using variable variables (fixed version)
+        // Examples without using variable variables (fixed version)
         $varName = 'data';
         $this->setDynamicVariable($varName, 'value');
         
