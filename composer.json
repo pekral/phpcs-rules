@@ -55,11 +55,11 @@
   },
   "require-dev": {
     "roave/security-advisories": "dev-latest",
-    "symfony/console": "^7.3",
+    "symfony/console": "^7.3.2",
     "illuminate/collections": "^12.25",
-    "phpunit/phpunit": "^12.3",
-    "mockery/mockery": "^1.6",
-    "pekral/cursor-rules": "^0.1.1",
+    "phpunit/phpunit": "^12.3.6",
+    "mockery/mockery": "^1.6.12",
+    "pekral/cursor-rules": "^0.1.4",
     "pekral/phpstan-rules": "^0.4.2",
     "pekral/rector-rules": "^0.4.1"
   },
