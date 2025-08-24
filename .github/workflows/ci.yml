@@ -1,4 +1,4 @@
-name: Check unused sniffs
+name: CI
 
 on:
   push:
@@ -15,11 +15,17 @@ on:
       - 'composer.json'
 
 jobs:
-  check-unused-sniffs:
+  test:
     runs-on: ubuntu-latest
     strategy:
       matrix:
         php-version: ['8.4', '8.5']
+        include:
+          - php-version: '8.4'
+            job-name: 'PHP 8.4'
+          - php-version: '8.5'
+            job-name: 'PHP 8.5'
+    name: ${{ matrix.job-name }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -39,6 +45,18 @@ jobs:
 
       - name: Install dependencies
         run: composer install --prefer-dist --no-progress --no-suggest
+
+      - name: PHP tests
+        run: composer test
+
+      - name: PHPCS Validation
+        run: composer check
+
+      - name: PHPStan
+        run: composer phpstan
+
+      - name: Rector (PHP Legacy)
+        run: composer rector
 
       - name: Check unused sniffs
         run: composer check-unused-sniffs
