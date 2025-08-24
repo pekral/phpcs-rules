@@ -7,6 +7,7 @@
     <arg name="extensions" value="php" />
     <arg name="encoding" value="utf-8" />
     <arg name="colors" />
+    <arg value="sp"/>
     <arg name="tab-width" value="4" />
 
     <!-- ========================= Arrays rules ========================== -->
