@@ -2,17 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [master]
-    paths:
-      - '**.php'
-      - 'ruleset.xml'
-      - 'composer.json'
+    branches: [master, main]
   pull_request:
-    branches: [master]
-    paths:
-      - '**.php'
-      - 'ruleset.xml'
-      - 'composer.json'
+    branches: [master, main]
 
 jobs:
   test:
