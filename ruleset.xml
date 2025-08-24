@@ -255,6 +255,7 @@
     <rule ref="SlevomatCodingStandard.Strings.DisallowVariableParsing" />
 
     <!-- ========================= Type hints rules ========================== -->
+
     <rule ref="SlevomatCodingStandard.TypeHints.ClassConstantTypeHint" />
     <rule ref="SlevomatCodingStandard.TypeHints.DeclareStrictTypes">
         <properties>
