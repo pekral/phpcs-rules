@@ -40,10 +40,12 @@
     }
   ],
   "scripts": {
-    "build": "composer fix && composer check && composer check-unused-sniffs && git gone",
-    "check": "vendor/bin/phpcs --standard=ruleset.xml -sp Example/ src/",
+    "build": "composer fix && composer check && composer check-unused-sniffs && composer test && git gone",
+    "check": "vendor/bin/phpcs --standard=ruleset.xml -sp Example/ src/ tests/",
     "check-unused-sniffs": "php build.php build:check-unused-sniffs",
-    "fix": "vendor/bin/phpcbf --standard=ruleset.xml -sp Example/ src/"
+    "fix": "vendor/bin/phpcbf --standard=ruleset.xml -sp Example/ src/ tests/",
+    "test": "vendor/bin/phpunit",
+    "test:coverage": "vendor/bin/phpunit --coverage-html coverage-report"
   },
   "require": {
     "php": "^8.4",
@@ -52,11 +54,18 @@
   "require-dev": {
     "roave/security-advisories": "dev-latest",
     "symfony/console": "^7.3",
-    "illuminate/collections": "^12.25"
+    "illuminate/collections": "^12.25",
+    "phpunit/phpunit": "^12.3",
+    "mockery/mockery": "^1.6"
   },
   "autoload": {
     "psr-4": {
       "Pekral\\PhpcsRulesBuild\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Pekral\\PhpcsRulesBuild\\Tests\\": "tests/"
     }
   },
   "minimum-stability": "dev",
