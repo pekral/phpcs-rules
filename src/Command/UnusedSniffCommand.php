@@ -30,7 +30,7 @@ final class UnusedSniffCommand extends Command
 
     private function printUnusedSniffs(array $unused, SymfonyStyle $output): int
     {
-        $realUnused = array_diff($unused, IgnoredSniffs::IGNORED_SNIFFS);
+        $realUnused = array_diff($unused, IgnoredSniffs::getAllIgnoredSniffs());
 
         if (count($realUnused) === 0) {
             $output->info('All Slevomat sniffs are used in ruleset.xml');

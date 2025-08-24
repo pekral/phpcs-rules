@@ -22,6 +22,11 @@
     <!-- ========================= Attributes rules ========================== -->
     <rule ref="SlevomatCodingStandard.Attributes.AttributeAndTargetSpacing" />
     <rule ref="SlevomatCodingStandard.Attributes.RequireAttributeAfterDocComment" />
+    <rule ref="SlevomatCodingStandard.Attributes.AttributesOrder">
+        <properties>
+            <property name="orderAlphabetically" value="true" />
+        </properties>
+    </rule>
 
     <!-- ========================= Classes rules ========================== -->
     <rule ref="SlevomatCodingStandard.Classes.BackedEnumTypeSpacing" />

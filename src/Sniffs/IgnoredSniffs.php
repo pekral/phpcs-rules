@@ -4,10 +4,12 @@ declare(strict_types = 1);
 
 namespace Pekral\PhpcsRulesBuild\Sniffs;
 
+use function array_merge;
+
 enum IgnoredSniffs
 {
 
-    public const array IGNORED_SNIFFS = [
+    public const array IGNORED_INTERNAL_SNIFFS = [
         'SlevomatCodingStandard.Classes.UnsupportedClassGroupException',
         'SlevomatCodingStandard.Classes.AbstractMethodSignature',
         'SlevomatCodingStandard.Classes.AbstractPropertyConstantAndEnumCaseSpacing',
@@ -20,6 +22,9 @@ enum IgnoredSniffs
         'SlevomatCodingStandard.ControlStructures.AbstractLineCondition',
         'SlevomatCodingStandard.Commenting.AbstractRequireOneLineDocComment',
         'SlevomatCodingStandard.Sniffs.TestCase',
+    ];
+
+    public const array IGNORED_SNIFFS = [
         'SlevomatCodingStandard.Numbers.DisallowNumericLiteralSeparator',
         'SlevomatCodingStandard.TypeHints.UnionTypeHintFormat',
         'SlevomatCodingStandard.ControlStructures.NewWithoutParentheses',
@@ -53,10 +58,14 @@ enum IgnoredSniffs
         'SlevomatCodingStandard.Files.TypeNameMatchesFileName',
         'SlevomatCodingStandard.Attributes.DisallowAttributesJoining',
         'SlevomatCodingStandard.Attributes.AttributeAndTargetSpacing',
-        'SlevomatCodingStandard.Attributes.AttributesOrder',
         'SlevomatCodingStandard.Namespaces.FullyQualifiedExceptions',
         'SlevomatCodingStandard.Operators.RequireOnlyStandaloneIncrementAndDecrementOperators',
         'SlevomatCodingStandard.Attributes.DisallowMultipleAttributesPerLine',
     ];
+
+    public static function getAllIgnoredSniffs(): array
+    {
+        return array_merge(self::IGNORED_INTERNAL_SNIFFS, self::IGNORED_SNIFFS);
+    }
 
 }
