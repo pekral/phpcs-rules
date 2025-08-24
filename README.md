@@ -1,6 +1,4 @@
 # phpcs-rules
-
-[![Build Status](https://github.com/pekral/phpcs-rules/actions/workflows/phpcs.yml/badge.svg)](https://github.com/pekral/phpcs-rules/actions)
 [![Latest Version](https://img.shields.io/packagist/v/pekral/phpcs-rules.svg?style=flat-square)](https://packagist.org/packages/pekral/phpcs-rules)
 [![License](https://img.shields.io/github/license/pekral/phpcs-rules.svg?style=flat-square)](LICENSE)
 [![Downloads](https://img.shields.io/packagist/dt/pekral/phpcs-rules.svg?style=flat-square)](https://packagist.org/packages/pekral/phpcs-rules)
