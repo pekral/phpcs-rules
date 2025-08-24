@@ -8,6 +8,18 @@ enum IgnoredSniffs
 {
 
     public const array IGNORED_SNIFFS = [
+        'SlevomatCodingStandard.Classes.UnsupportedClassGroupException',
+        'SlevomatCodingStandard.Classes.AbstractMethodSignature',
+        'SlevomatCodingStandard.Classes.AbstractPropertyConstantAndEnumCaseSpacing',
+        'SlevomatCodingStandard.Classes.MissingClassGroupsException',
+        'SlevomatCodingStandard.Namespaces.AbstractFullyQualifiedGlobalReference',
+        'SlevomatCodingStandard.Files.FilepathNamespaceExtractor',
+        'SlevomatCodingStandard.Functions.AbstractLineCall',
+        'SlevomatCodingStandard.ControlStructures.AbstractControlStructureSpacing',
+        'SlevomatCodingStandard.ControlStructures.UnsupportedKeywordException',
+        'SlevomatCodingStandard.ControlStructures.AbstractLineCondition',
+        'SlevomatCodingStandard.Commenting.AbstractRequireOneLineDocComment',
+        'SlevomatCodingStandard.Sniffs.TestCase',
         'SlevomatCodingStandard.Numbers.DisallowNumericLiteralSeparator',
         'SlevomatCodingStandard.TypeHints.UnionTypeHintFormat',
         'SlevomatCodingStandard.ControlStructures.NewWithoutParentheses',
