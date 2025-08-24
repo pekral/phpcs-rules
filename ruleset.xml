@@ -45,12 +45,12 @@
     <rule ref="SlevomatCodingStandard.Classes.EmptyLinesAroundClassBraces" />
     <rule ref="SlevomatCodingStandard.Classes.RequireSingleLineMethodSignature">
         <properties>
-            <property name="maxLineLength" value="189" />
+            <property name="maxLineLength" value="156" />
         </properties>
     </rule>
     <rule ref="SlevomatCodingStandard.Classes.RequireMultiLineMethodSignature">
         <properties>
-            <property name="minLineLength" value="190" />
+            <property name="minLineLength" value="156" />
         </properties>
     </rule>
     <rule ref="SlevomatCodingStandard.Classes.SuperfluousErrorNaming" />
@@ -78,8 +78,8 @@
     <!-- ========================= Complexity rules ========================== -->
     <rule ref="SlevomatCodingStandard.Complexity.Cognitive">
         <properties>
-            <property name="warningThreshold" value="7"/>
-            <property name="errorThreshold" value="7"/>
+            <property name="warningThreshold" value="9"/>
+            <property name="errorThreshold" value="9"/>
         </properties>
     </rule>
 
@@ -112,7 +112,7 @@
     <rule ref="SlevomatCodingStandard.ControlStructures.BlockControlStructureSpacing.IncorrectLinesCountBeforeControlStructure" />
     <rule ref="SlevomatCodingStandard.ControlStructures.RequireMultiLineTernaryOperator">
         <properties>
-            <property name="lineLengthLimit" value="120" />
+            <property name="lineLengthLimit" value="156" />
         </properties>
     </rule>
     <rule ref="SlevomatCodingStandard.ControlStructures.BlockControlStructureSpacing" />
@@ -124,7 +124,7 @@
     </rule>
     <rule ref="SlevomatCodingStandard.ControlStructures.RequireMultiLineCondition">
         <properties>
-            <property name="minLineLength" value="170" />
+            <property name="minLineLength" value="156" />
         </properties>
     </rule>
     <rule ref="SlevomatCodingStandard.ControlStructures.DisallowTrailingMultiLineTernaryOperator" />
@@ -137,7 +137,7 @@
     <!-- ========================= Files rules ========================== -->
     <rule ref="SlevomatCodingStandard.Files.FileLength">
         <properties>
-            <property name="maxLinesLength" value="1000" />
+            <property name="maxLinesLength" value="500" />
         </properties>
         <exclude-pattern>tests/*</exclude-pattern>
     </rule>
@@ -154,12 +154,12 @@
     <rule ref="SlevomatCodingStandard.Functions.RequireTrailingCommaInCall" />
     <rule ref="SlevomatCodingStandard.Functions.RequireMultiLineCall">
         <properties>
-            <property name="minLineLength" value="190" />
+            <property name="minLineLength" value="156" />
         </properties>
     </rule>
     <rule ref="SlevomatCodingStandard.Functions.RequireSingleLineCall">
         <properties>
-            <property name="maxLineLength" value="189" />
+            <property name="maxLineLength" value="155" />
         </properties>
     </rule>
     <rule ref="SlevomatCodingStandard.Functions.RequireTrailingCommaInDeclaration" />
@@ -274,12 +274,12 @@
     <rule ref="SlevomatCodingStandard.Classes.EmptyLinesAroundClassBraces" />
     <rule ref="SlevomatCodingStandard.Classes.RequireSingleLineMethodSignature">
         <properties>
-            <property name="maxLineLength" value="189" />
+            <property name="maxLineLength" value="155" />
         </properties>
     </rule>
     <rule ref="SlevomatCodingStandard.Classes.RequireMultiLineMethodSignature">
         <properties>
-            <property name="minLineLength" value="190" />
+            <property name="minLineLength" value="156" />
         </properties>
     </rule>
     <rule ref="SlevomatCodingStandard.Classes.SuperfluousErrorNaming" />
@@ -339,7 +339,7 @@
     <rule ref="SlevomatCodingStandard.ControlStructures.BlockControlStructureSpacing.IncorrectLinesCountBeforeControlStructure" />
     <rule ref="SlevomatCodingStandard.ControlStructures.RequireMultiLineTernaryOperator">
         <properties>
-            <property name="lineLengthLimit" value="120" />
+            <property name="lineLengthLimit" value="156" />
         </properties>
     </rule>
     <rule ref="SlevomatCodingStandard.ControlStructures.BlockControlStructureSpacing" />
@@ -351,14 +351,14 @@
     </rule>
     <rule ref="SlevomatCodingStandard.ControlStructures.RequireMultiLineCondition">
         <properties>
-            <property name="minLineLength" value="170" />
+            <property name="minLineLength" value="156" />
         </properties>
     </rule>
     <rule ref="SlevomatCodingStandard.ControlStructures.DisallowTrailingMultiLineTernaryOperator" />
     <rule ref="SlevomatCodingStandard.ControlStructures.RequireSingleLineCondition" />
     <rule ref="SlevomatCodingStandard.Files.LineLength">
         <properties>
-            <property name="lineLengthLimit" value="120" />
+            <property name="lineLengthLimit" value="156" />
             <property name="ignoreComments" value="true" />
             <property name="ignoreImports" value="true" />
         </properties>
@@ -380,12 +380,12 @@
     <rule ref="SlevomatCodingStandard.Classes.DisallowMultiPropertyDefinition" />
     <rule ref="SlevomatCodingStandard.Functions.RequireMultiLineCall">
         <properties>
-            <property name="minLineLength" value="190" />
+            <property name="minLineLength" value="156" />
         </properties>
     </rule>
     <rule ref="SlevomatCodingStandard.Functions.RequireSingleLineCall">
         <properties>
-            <property name="maxLineLength" value="189" />
+            <property name="maxLineLength" value="155" />
         </properties>
     </rule>
     <rule ref="SlevomatCodingStandard.Functions.RequireTrailingCommaInDeclaration" />
@@ -430,7 +430,7 @@
     <!-- ========================= File and class length rules ========================== -->
     <rule ref="SlevomatCodingStandard.Files.FileLength">
         <properties>
-            <property name="maxLinesLength" value="1000" />
+            <property name="maxLinesLength" value="500" />
         </properties>
         <exclude-pattern>tests/*</exclude-pattern>
     </rule>
@@ -493,8 +493,8 @@
     <!-- ========================= Miscellaneous rules ========================== -->
     <rule ref="SlevomatCodingStandard.Complexity.Cognitive">
         <properties>
-            <property name="warningThreshold" value="7"/>
-            <property name="errorThreshold" value="7"/>
+            <property name="warningThreshold" value="9"/>
+            <property name="errorThreshold" value="9"/>
         </properties>
     </rule>
     <rule ref="Squiz.PHP.DiscouragedFunctions">

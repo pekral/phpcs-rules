@@ -40,16 +40,23 @@
     }
   ],
   "scripts": {
-    "check": "vendor/bin/phpcs --standard=ruleset.xml -sp Example/ build/",
-    "fix": "vendor/bin/phpcbf --standard=ruleset.xml -sp Example/ build/",
-    "analyze": "php build/analyze-missing-examples.php"
+    "check": "vendor/bin/phpcs --standard=ruleset.xml -sp Example/ src/",
+    "check-unused-sniffs": "php build.php build:check-unused-sniffs",
+    "fix": "vendor/bin/phpcbf --standard=ruleset.xml -sp Example/ src/"
   },
   "require": {
     "php": "^8.4",
     "slevomat/coding-standard": "^8.20.0"
   },
   "require-dev": {
-    "roave/security-advisories": "dev-latest"
+    "roave/security-advisories": "dev-latest",
+    "symfony/console": "^7.3",
+    "illuminate/collections": "^12.25"
+  },
+  "autoload": {
+    "psr-4": {
+      "Pekral\\PhpcsRulesBuild\\": "src/"
+    }
   },
   "minimum-stability": "dev",
   "prefer-stable": true,
