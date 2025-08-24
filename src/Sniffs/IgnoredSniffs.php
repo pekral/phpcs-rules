@@ -33,7 +33,6 @@ enum IgnoredSniffs
         'SlevomatCodingStandard.Classes.DisallowMultiPropertyDefinition',
         'SlevomatCodingStandard.Classes.RequireAbstractOrFinal',
         'SlevomatCodingStandard.Classes.DisallowConstructorPropertyPromotion',
-        'SlevomatCodingStandard.PHP.UselessParentheses',
         'SlevomatCodingStandard.PHP.DisallowReference',
         'SlevomatCodingStandard.Exceptions.DisallowNonCapturingCatch',
         'SlevomatCodingStandard.Namespaces.FullyQualifiedGlobalConstants',
