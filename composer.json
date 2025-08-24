@@ -40,14 +40,15 @@
     }
   ],
   "scripts": {
-    "build": "composer fix && composer rector && composer check && composer check-unused-sniffs && composer phpstan && composer test && git gone",
+    "build": "composer fix && composer phpcompatibility && composer rector && composer check && composer check-unused-sniffs && composer phpstan && composer test && git gone",
     "phpstan": "vendor/bin/phpstan analyse src/ --level=max --memory-limit=1G",
     "rector": "rector process src/ tests/ --config=vendor/pekral/rector-rules/rector.php --dry-run",
     "check": "vendor/bin/phpcs --standard=ruleset.xml Examples/ src/ tests/",
     "check-unused-sniffs": "php build.php build:check-unused-sniffs",
     "fix": "rector process src/ tests/ --config=vendor/pekral/rector-rules/rector.php && vendor/bin/phpcbf --standard=ruleset.xml Examples/ src/ tests/",
     "test": "vendor/bin/phpunit",
-    "test:coverage": "vendor/bin/phpunit --coverage-html coverage-report"
+    "test:coverage": "vendor/bin/phpunit --coverage-html coverage-report",
+    "phpcompatibility": "vendor/bin/phpcs --standard=PHPCompatibility --runtime-set testVersion 8.4- src/ tests/"
   },
   "require": {
     "php": "^8.4|^8.5",
@@ -61,7 +62,8 @@
     "mockery/mockery": "^1.6.12",
     "pekral/cursor-rules": "^0.1.4",
     "pekral/phpstan-rules": "^0.4.2",
-    "pekral/rector-rules": "^0.4.1"
+    "pekral/rector-rules": "^0.4.1",
+    "phpcompatibility/php-compatibility": "^9.3"
   },
   "autoload": {
     "psr-4": {
