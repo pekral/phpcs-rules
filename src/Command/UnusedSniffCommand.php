@@ -76,7 +76,6 @@ final class UnusedSniffCommand extends Command
 
     public function __invoke(SymfonyStyle $output): int
     {
-
         if (!is_dir(self::SNIFFS_DIR)) {
             $output->writeln('Sniffs directory not found: ' . self::SNIFFS_DIR);
 
