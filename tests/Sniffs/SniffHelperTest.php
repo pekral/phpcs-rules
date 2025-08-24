@@ -24,7 +24,7 @@ final class SniffHelperTest extends TestCase
 
         $result = SniffHelper::getSniffName($fileInfo);
 
-        $this->assertEquals('SlevomatCodingStandard.Arrays.ArrayIndent', $result);
+        $this->assertSame('SlevomatCodingStandard.Arrays.ArrayIndent', $result);
     }
 
     public function testGetSniffNameWithNestedPath(): void
@@ -39,7 +39,7 @@ final class SniffHelperTest extends TestCase
 
         $result = SniffHelper::getSniffName($fileInfo);
 
-        $this->assertEquals('SlevomatCodingStandard.PropertyDeclaration.PropertyDeclaration', $result);
+        $this->assertSame('SlevomatCodingStandard.PropertyDeclaration.PropertyDeclaration', $result);
     }
 
     public function testGetSniffNameWithoutSniffSuffix(): void
@@ -54,7 +54,7 @@ final class SniffHelperTest extends TestCase
 
         $result = SniffHelper::getSniffName($fileInfo);
 
-        $this->assertEquals('SlevomatCodingStandard.Utilities.Helper', $result);
+        $this->assertSame('SlevomatCodingStandard.Utilities.Helper', $result);
     }
 
     public function testGetSniffNameWithMultipleSniffSuffixes(): void
@@ -69,7 +69,7 @@ final class SniffHelperTest extends TestCase
 
         $result = SniffHelper::getSniffName($fileInfo);
 
-        $this->assertEquals('SlevomatCodingStandard.Helpers.Helper', $result);
+        $this->assertSame('SlevomatCodingStandard.Helpers.Helper', $result);
     }
 
     public function testGetAllSniffsFromRulesetWithActiveRules(): void
@@ -93,7 +93,7 @@ final class SniffHelperTest extends TestCase
                 'SlevomatCodingStandard.Functions.FunctionLength',
             ];
 
-            $this->assertEquals($expected, $result);
+            $this->assertSame($expected, $result);
         } finally {
             unlink($tempFile);
         }
@@ -120,7 +120,7 @@ final class SniffHelperTest extends TestCase
                 'SlevomatCodingStandard.Functions.FunctionLength',
             ];
 
-            $this->assertEquals($expected, $result);
+            $this->assertSame($expected, $result);
         } finally {
             unlink($tempFile);
         }
@@ -161,7 +161,7 @@ final class SniffHelperTest extends TestCase
 
             $expected = ['SlevomatCodingStandard.Arrays.AlphabeticallySortedByKeys'];
 
-            $this->assertEquals($expected, $result);
+            $this->assertSame($expected, $result);
         } finally {
             unlink($tempFile);
         }

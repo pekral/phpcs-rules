@@ -40,11 +40,12 @@
     }
   ],
   "scripts": {
-    "build": "composer fix && composer check && composer check-unused-sniffs && composer phpstan && composer test && git gone",
+    "build": "composer fix && composer rector && composer check && composer check-unused-sniffs && composer phpstan && composer test && git gone",
     "phpstan": "vendor/bin/phpstan analyse src/ --level=max --memory-limit=1G",
+    "rector": "rector process src/ tests/ --config=vendor/pekral/rector-rules/rector.php --dry-run",
     "check": "vendor/bin/phpcs --standard=ruleset.xml -sp Examples/ src/ tests/",
     "check-unused-sniffs": "php build.php build:check-unused-sniffs",
-    "fix": "vendor/bin/phpcbf --standard=ruleset.xml -sp Examples/ src/ tests/",
+    "fix": "rector process src/ tests/ --config=vendor/pekral/rector-rules/rector.php && vendor/bin/phpcbf --standard=ruleset.xml -sp Examples/ src/ tests/",
     "test": "vendor/bin/phpunit",
     "test:coverage": "vendor/bin/phpunit --coverage-html coverage-report"
   },
@@ -59,7 +60,8 @@
     "phpunit/phpunit": "^12.3",
     "mockery/mockery": "^1.6",
     "pekral/cursor-rules": "^0.1.1",
-    "pekral/phpstan-rules": "^0.4.2"
+    "pekral/phpstan-rules": "^0.4.2",
+    "pekral/rector-rules": "^0.4.1"
   },
   "autoload": {
     "psr-4": {
