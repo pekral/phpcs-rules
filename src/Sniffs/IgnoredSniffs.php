@@ -25,18 +25,25 @@ enum IgnoredSniffs
     ];
 
     public const array IGNORED_SNIFFS = [
+        // Ignore this sniff
         'SlevomatCodingStandard.Numbers.DisallowNumericLiteralSeparator',
         // Ignore this sniff, is deprecated for version 9.0.0
         'SlevomatCodingStandard.TypeHints.UnionTypeHintFormat',
+        // Ignore this sniff
         'SlevomatCodingStandard.ControlStructures.NewWithoutParentheses',
+        // Ignore this sniff
         'SlevomatCodingStandard.Classes.DisallowMultiConstantDefinition',
+        // Ignore this sniff
         'SlevomatCodingStandard.Classes.DisallowMultiPropertyDefinition',
-        'SlevomatCodingStandard.Classes.RequireAbstractOrFinal',
+        // Ignore this sniff
         'SlevomatCodingStandard.Classes.DisallowConstructorPropertyPromotion',
-        'SlevomatCodingStandard.PHP.DisallowReference',
+        // Ignore this sniff
         'SlevomatCodingStandard.Exceptions.DisallowNonCapturingCatch',
+        // Ignore this sniff
         'SlevomatCodingStandard.Namespaces.FullyQualifiedGlobalConstants',
+        // Ignore this sniff
         'SlevomatCodingStandard.Namespaces.FullyQualifiedGlobalFunctions',
+        // Ignore this sniff
         'SlevomatCodingStandard.Namespaces.UseOnlyWhitelistedNamespaces',
         'SlevomatCodingStandard.Commenting.DeprecatedAnnotationDeclaration',
         'SlevomatCodingStandard.Commenting.RequireOneLinePropertyDocComment',
