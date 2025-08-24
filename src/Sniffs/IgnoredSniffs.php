@@ -45,27 +45,40 @@ enum IgnoredSniffs
         'SlevomatCodingStandard.Namespaces.FullyQualifiedGlobalFunctions',
         // Ignore this sniff
         'SlevomatCodingStandard.Namespaces.UseOnlyWhitelistedNamespaces',
-        'SlevomatCodingStandard.Commenting.DeprecatedAnnotationDeclaration',
+        // Ignore this sniff
         'SlevomatCodingStandard.Commenting.RequireOneLinePropertyDocComment',
+        // Ignore this sniff
         'SlevomatCodingStandard.Commenting.RequireOneLineDocComment',
+        // Ignore this sniff
         'SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint',
+        // Ignore this sniff
         'SlevomatCodingStandard.ControlStructures.DisallowNullSafeObjectOperator',
-        'SlevomatCodingStandard.ControlStructures.RequireNullSafeObjectOperator',
+        // Ignore this sniff
         'SlevomatCodingStandard.ControlStructures.DisallowShortTernaryOperator',
+        // Ignore this sniff
         'SlevomatCodingStandard.ControlStructures.RequireSingleLineCondition',
+        // Ignore this sniff
         'SlevomatCodingStandard.ControlStructures.RequireYodaComparison',
+        // Ignore this sniff
         'SlevomatCodingStandard.Functions.DisallowArrowFunction',
+        // Ignore this sniff
         'SlevomatCodingStandard.Functions.DisallowTrailingCommaInCall',
+        // Ignore this sniff
         'SlevomatCodingStandard.Functions.RequireTrailingCommaInClosureUse',
-        'SlevomatCodingStandard.Functions.DisallowTrailingCommaInDeclaration',
-        'SlevomatCodingStandard.Functions.DisallowTrailingCommaInClosureUse',
+        // Ignore this sniff
         'SlevomatCodingStandard.Functions.DisallowNamedArguments',
+        // Ignore this sniff
         'SlevomatCodingStandard.Files.TypeNameMatchesFileName',
+        // Ignore this sniff
         'SlevomatCodingStandard.Attributes.DisallowAttributesJoining',
-        'SlevomatCodingStandard.Attributes.AttributeAndTargetSpacing',
+        // Ignore this sniff
         'SlevomatCodingStandard.Namespaces.FullyQualifiedExceptions',
-        'SlevomatCodingStandard.Operators.RequireOnlyStandaloneIncrementAndDecrementOperators',
+        // Ignore this sniff
         'SlevomatCodingStandard.Attributes.DisallowMultipleAttributesPerLine',
+        // Ignore this sniff
+        'SlevomatCodingStandard.Operators.DisallowIncrementAndDecrementOperators',
+        // Ignore this sniff
+        'SlevomatCodingStandard.Functions.DisallowTrailingCommaInDeclaration',
     ];
 
     public static function getAllIgnoredSniffs(): array

@@ -10,24 +10,31 @@ final class ReferenceSpacing
     public function example(): void
     {
         $value = 42;
-        $reference = &$value;
-        
         $array = [1, 2, 3];
-
-        foreach ($array as &$item) {
-            $item *= 2;
-        }
         
-        $result = $this->processReference($value);
+        // Example without references (following DisallowReference rule)
+        $result = $this->processValue($value);
         echo $result;
-        echo $reference;
+        
+        // Process array without references
+        $processedArray = $this->processArray($array);
+        echo implode(', ', $processedArray);
     }
     
-    private function processReference(int $data): int
+    private function processValue(int $data): int
     {
-        $data *= 2;
+        return $data * 2;
+    }
+    
+    private function processArray(array $data): array
+    {
+        $result = [];
 
-        return $data;
+        foreach ($data as $item) {
+            $result[] = $item * 2;
+        }
+        
+        return $result;
     }
 
 }
