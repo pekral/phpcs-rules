@@ -45,7 +45,6 @@ enum IgnoredSniffs
         'SlevomatCodingStandard.Namespaces.FullyQualifiedGlobalFunctions',
         // Ignore this sniff
         'SlevomatCodingStandard.Namespaces.UseOnlyWhitelistedNamespaces',
-        'SlevomatCodingStandard.Commenting.DeprecatedAnnotationDeclaration',
         'SlevomatCodingStandard.Commenting.RequireOneLinePropertyDocComment',
         'SlevomatCodingStandard.Commenting.RequireOneLineDocComment',
         'SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint',

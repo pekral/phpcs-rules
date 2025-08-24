@@ -4,41 +4,28 @@ declare(strict_types = 1);
 
 namespace Example\Commenting;
 
-use DateTime;
-
 final class DeprecatedAnnotationDeclaration
 {
 
     /**
-     * @deprecated Since version 2.0, use newMethod() instead
+     * @deprecated Use newMethod() instead
      */
     public function oldMethod(): string
     {
-        return 'This method is deprecated';
+        return 'deprecated';
     }
 
     /**
-     * @deprecated This method will be removed in version 3.0
-     * @param string $name The user's name
-     * @return string Greeting message
+     * @deprecated Will be removed in next version
      */
-    public function deprecatedGreet(string $name): string
+    public function deprecatedMethod(): void
     {
-        return "Hello, {$name}!";
-    }
-
-    /**
-     * @deprecated Will be removed in version 4.0. Use DateTimeImmutable instead
-     * @return string Formatted date
-     */
-    public function formatDate(DateTime $date): string
-    {
-        return $date->format('Y-m-d H:i:s');
+        // This method is deprecated and will be removed
     }
 
     public function newMethod(): string
     {
-        return 'This is the new method';
+        return 'new';
     }
 
 }
