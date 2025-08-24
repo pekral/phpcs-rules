@@ -190,7 +190,11 @@
     <!-- ========================= Functions rules ========================== -->
     <rule ref="SlevomatCodingStandard.Functions.ArrowFunctionDeclaration" />
     <rule ref="SlevomatCodingStandard.Functions.DisallowEmptyFunction" />
-    <rule ref="SlevomatCodingStandard.Functions.FunctionLength"/>
+    <rule ref="SlevomatCodingStandard.Functions.FunctionLength">
+        <properties>
+            <property name="maxLinesLength" value="30"/>
+        </properties>
+    </rule>
     <rule ref="SlevomatCodingStandard.Functions.DisallowTrailingCommaInClosureUse"/>
     <rule ref="SlevomatCodingStandard.Functions.NamedArgumentSpacing"/>
     <rule ref="SlevomatCodingStandard.Functions.RequireArrowFunction" />

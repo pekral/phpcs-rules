@@ -8,11 +8,11 @@ final class AnnotationName
 {
 
     /**
-     * Example method
+     * Examples method
      */
     public function example(): void
     {
-        // Example comment
+        // Examples comment
     }
 
 }

@@ -12,7 +12,7 @@ final class ReferenceSpacing
         $value = 42;
         $array = [1, 2, 3];
         
-        // Example without references (following DisallowReference rule)
+        // Examples without references (following DisallowReference rule)
         $result = $this->processValue($value);
         echo $result;
         
