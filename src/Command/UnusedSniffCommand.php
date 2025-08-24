@@ -9,11 +9,13 @@ use Pekral\PhpcsRulesBuild\Sniffs\IgnoredSniffs;
 use Pekral\PhpcsRulesBuild\Sniffs\SniffHelper;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
+use SplFileInfo;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 use function array_diff;
+use function assert;
 use function implode;
 use function is_dir;
 use function is_file;
@@ -61,8 +63,9 @@ final class UnusedSniffCommand extends Command
     {
         $allSniffs = [];
 
-        /** @var \SplFileInfo $item */
         foreach ($this->getSniffsIterator() as $item) {
+            assert($item instanceof SplFileInfo);
+
             if (!$item->isDir()) {
                 $allSniffs[] = SniffHelper::getSniffName($item);
             }

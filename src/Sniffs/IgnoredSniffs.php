@@ -55,7 +55,6 @@ enum IgnoredSniffs
         'SlevomatCodingStandard.Attributes.AttributeAndTargetSpacing',
         'SlevomatCodingStandard.Attributes.AttributesOrder',
         'SlevomatCodingStandard.Namespaces.FullyQualifiedExceptions',
-        'SlevomatCodingStandard.PHP.RequireExplicitAssertion',
         'SlevomatCodingStandard.Operators.RequireOnlyStandaloneIncrementAndDecrementOperators',
         'SlevomatCodingStandard.Attributes.DisallowMultipleAttributesPerLine',
     ];
