@@ -5,7 +5,6 @@ declare(strict_types = 1);
 namespace Pekral\PhpcsRulesBuild\Command;
 
 use FilesystemIterator;
-use Pekral\PhpcsRulesBuild\Sniffs\IgnoredSniffs;
 use Pekral\PhpcsRulesBuild\Sniffs\SniffHelper;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
@@ -28,10 +27,8 @@ final class UnusedSniffCommand extends Command
     private const string SNIFFS_DIR = self::BASE_PATH . '/vendor/slevomat/coding-standard/SlevomatCodingStandard/Sniffs/';
     private const string RULESET_FILE = self::BASE_PATH . 'ruleset.xml';
 
-    private function printUnusedSniffs(array $unused, SymfonyStyle $output): int
+    private function printUnusedSniffs(array $realUnused, SymfonyStyle $output): int
     {
-        $realUnused = array_diff($unused, IgnoredSniffs::getAllIgnoredSniffs());
-
         if (count($realUnused) === 0) {
             $output->info('All Slevomat sniffs are used in ruleset.xml');
 
@@ -46,7 +43,7 @@ final class UnusedSniffCommand extends Command
 
     private function getUnusedSniffs(array $allSniffs): array
     {
-        return array_diff($allSniffs, SniffHelper::getSniffsFromRuleset(self::RULESET_FILE));
+        return array_diff($allSniffs, SniffHelper::getAllSniffsFromRuleset(self::RULESET_FILE));
     }
 
     private function getSniffsIterator(): RecursiveIteratorIterator

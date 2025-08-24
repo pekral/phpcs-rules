@@ -10,6 +10,7 @@ use function array_pop;
 use function array_unique;
 use function explode;
 use function file_get_contents;
+use function is_array;
 use function preg_match_all;
 use function sprintf;
 use function str_replace;
@@ -31,12 +32,28 @@ final class SniffHelper
     /**
      * @return array<string>
      */
-    public static function getSniffsFromRuleset(string $rulesetFilePath): array
+    public static function getAllSniffsFromRuleset(string $rulesetFilePath): array
     {
         $ruleset = file_get_contents($rulesetFilePath);
-        preg_match_all('/<rule ref="(SlevomatCodingStandard\\.[^"]+)"/', $ruleset, $matches);
+        
+        // Extract all rule references (both active and excluded)
+        $allSniffs = [];
+        
+        // Extract active rules: <rule ref="SlevomatCodingStandard.Category.RuleName" />
+        preg_match_all('/<rule ref="(SlevomatCodingStandard\\.[^"]+)"/', $ruleset, $ruleMatches);
 
-        return array_unique($matches[1]);
+        if (is_array($ruleMatches[1])) {
+            $allSniffs = array_merge($allSniffs, $ruleMatches[1]);
+        }
+        
+        // Extract excluded rules: <exclude name="SlevomatCodingStandard.Category.RuleName" />
+        preg_match_all('/<exclude name="(SlevomatCodingStandard\\.[^"]+)"/', $ruleset, $excludeMatches);
+
+        if ($excludeMatches[1]) {
+            $allSniffs = array_merge($allSniffs, $excludeMatches[1]);
+        }
+
+        return array_unique($allSniffs);
     }
 
 }
