@@ -10,7 +10,6 @@ use function array_pop;
 use function array_unique;
 use function explode;
 use function file_get_contents;
-use function is_array;
 use function preg_match_all;
 use function sprintf;
 use function str_replace;
@@ -35,17 +34,20 @@ final class SniffHelper
     public static function getAllSniffsFromRuleset(string $rulesetFilePath): array
     {
         $ruleset = file_get_contents($rulesetFilePath);
+        
+        if ($ruleset === false) {
+            return [];
+        }
+        
         $allSniffs = [];
         
         preg_match_all('/<rule ref="(SlevomatCodingStandard\\.[^"]+)"/', $ruleset, $ruleMatches);
 
-        if (is_array($ruleMatches[1])) {
-            $allSniffs = array_merge($allSniffs, $ruleMatches[1]);
-        }
+        $allSniffs = array_merge($allSniffs, $ruleMatches[1]);
         
         preg_match_all('/<exclude name="(SlevomatCodingStandard\\.[^"]+)"/', $ruleset, $excludeMatches);
 
-        if ($excludeMatches[1]) {
+        if (count($excludeMatches[1]) > 0) {
             $allSniffs = array_merge($allSniffs, $excludeMatches[1]);
         }
 

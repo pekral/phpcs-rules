@@ -40,7 +40,8 @@
     }
   ],
   "scripts": {
-    "build": "composer fix && composer check && composer check-unused-sniffs && composer test && git gone",
+    "build": "composer fix && composer check && composer check-unused-sniffs && composer phpstan && composer test && git gone",
+    "phpstan": "vendor/bin/phpstan analyse src/ --level=max --memory-limit=1G",
     "check": "vendor/bin/phpcs --standard=ruleset.xml -sp Examples/ src/ tests/",
     "check-unused-sniffs": "php build.php build:check-unused-sniffs",
     "fix": "vendor/bin/phpcbf --standard=ruleset.xml -sp Examples/ src/ tests/",
@@ -57,7 +58,8 @@
     "illuminate/collections": "^12.25",
     "phpunit/phpunit": "^12.3",
     "mockery/mockery": "^1.6",
-    "pekral/cursor-rules": "^0.1.1"
+    "pekral/cursor-rules": "^0.1.1",
+    "pekral/phpstan-rules": "^0.4.2"
   },
   "autoload": {
     "psr-4": {
@@ -73,7 +75,8 @@
   "prefer-stable": true,
   "config": {
     "allow-plugins": {
-      "dealerdirect/phpcodesniffer-composer-installer": true
+      "dealerdirect/phpcodesniffer-composer-installer": true,
+      "phpstan/extension-installer": true
     }
   }
 }

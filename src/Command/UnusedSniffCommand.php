@@ -27,6 +27,9 @@ final class UnusedSniffCommand extends Command
     private const string SNIFFS_DIR = self::BASE_PATH . '/vendor/slevomat/coding-standard/SlevomatCodingStandard/Sniffs/';
     private const string RULESET_FILE = self::BASE_PATH . 'ruleset.xml';
 
+    /**
+     * @param array<string> $realUnused
+     */
     private function printUnusedSniffs(array $realUnused, SymfonyStyle $output): int
     {
         if (count($realUnused) === 0) {
@@ -41,11 +44,18 @@ final class UnusedSniffCommand extends Command
         return Command::FAILURE;
     }
 
+    /**
+     * @param array<string> $allSniffs
+     * @return array<string>
+     */
     private function getUnusedSniffs(array $allSniffs): array
     {
         return array_diff($allSniffs, SniffHelper::getAllSniffsFromRuleset(self::RULESET_FILE));
     }
 
+    /**
+     * @return \RecursiveIteratorIterator<\RecursiveDirectoryIterator>
+     */
     private function getSniffsIterator(): RecursiveIteratorIterator
     {
         return new RecursiveIteratorIterator(
