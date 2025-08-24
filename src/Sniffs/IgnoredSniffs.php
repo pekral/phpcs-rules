@@ -26,10 +26,9 @@ enum IgnoredSniffs
 
     public const array IGNORED_SNIFFS = [
         'SlevomatCodingStandard.Numbers.DisallowNumericLiteralSeparator',
-        // Ignore this sniff, is deprecated for versio 9.0.0
+        // Ignore this sniff, is deprecated for version 9.0.0
         'SlevomatCodingStandard.TypeHints.UnionTypeHintFormat',
         'SlevomatCodingStandard.ControlStructures.NewWithoutParentheses',
-        'SlevomatCodingStandard.Strings.DisallowVariableParsing',
         'SlevomatCodingStandard.Numbers.RequireNumericLiteralSeparator',
         'SlevomatCodingStandard.Classes.DisallowMultiConstantDefinition',
         'SlevomatCodingStandard.Classes.DisallowMultiPropertyDefinition',
