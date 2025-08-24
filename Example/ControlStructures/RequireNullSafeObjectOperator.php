@@ -27,6 +27,19 @@ final class RequireNullSafeObjectOperator
         echo "City: " . ($city ?? 'null') . "\n";
     }
 
+    public function exampleWithNullCheck(): void
+    {
+        $user = $this->getUser();
+        
+        if ($user === null) {
+            return;
+        }
+
+        $name = $user->getName();
+        $email = $user->getProfile()->getEmail();
+        echo "Name: " . $name . ", Email: " . $email . "\n";
+    }
+
     private function getUser(): ?User
     {
         return new User();

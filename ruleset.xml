@@ -20,7 +20,11 @@
     <rule ref="SlevomatCodingStandard.Arrays.TrailingArrayComma" />
 
     <!-- ========================= Attributes rules ========================== -->
-    <rule ref="SlevomatCodingStandard.Attributes.AttributeAndTargetSpacing" />
+    <rule ref="SlevomatCodingStandard.Attributes.AttributeAndTargetSpacing">
+        <properties>
+            <property name="linesCount" value="0"/>
+        </properties>
+    </rule>
     <rule ref="SlevomatCodingStandard.Attributes.RequireAttributeAfterDocComment" />
     <rule ref="SlevomatCodingStandard.Attributes.AttributesOrder">
         <properties>
@@ -164,7 +168,7 @@
     <rule ref="SlevomatCodingStandard.Functions.ArrowFunctionDeclaration" />
     <rule ref="SlevomatCodingStandard.Functions.DisallowEmptyFunction" />
     <rule ref="SlevomatCodingStandard.Functions.FunctionLength"/>
-
+    <rule ref="SlevomatCodingStandard.Functions.DisallowTrailingCommaInClosureUse"/>
     <rule ref="SlevomatCodingStandard.Functions.NamedArgumentSpacing"/>
     <rule ref="SlevomatCodingStandard.Functions.RequireArrowFunction" />
     <rule ref="SlevomatCodingStandard.Functions.RequireMultiLineCall">
@@ -233,10 +237,10 @@
 
     <!-- ========================= Operators rules ========================== -->
     <rule ref="SlevomatCodingStandard.Operators.DisallowEqualOperators" />
-    <rule ref="SlevomatCodingStandard.Operators.DisallowIncrementAndDecrementOperators" />
     <rule ref="SlevomatCodingStandard.Operators.NegationOperatorSpacing" />
     <rule ref="SlevomatCodingStandard.Operators.RequireCombinedAssignmentOperator" />
     <rule ref="SlevomatCodingStandard.Operators.SpreadOperatorSpacing" />
+    <rule ref="SlevomatCodingStandard.Operators.RequireOnlyStandaloneIncrementAndDecrementOperators" />
 
     <!-- ========================= PHP rules ========================== -->
     <rule ref="SlevomatCodingStandard.PHP.DisallowDirectMagicInvokeCall" />
@@ -249,6 +253,7 @@
     <rule ref="SlevomatCodingStandard.PHP.ShortList" />
     <rule ref="SlevomatCodingStandard.PHP.TypeCast" />
     <rule ref="SlevomatCodingStandard.PHP.UselessSemicolon" />
+    <rule ref="SlevomatCodingStandard.PHP.DisallowReference" />
 
     <!-- ========================= Strings rules ========================== -->
 

@@ -40,7 +40,6 @@ final class AttributeAndTargetSpacing
 {
 
     #[Route('/api/users', methods: ['GET'])]
-    #[Security("is_granted('ROLE_USER')")]
     public function getUsers(): array
     {
         return [];
@@ -48,12 +47,16 @@ final class AttributeAndTargetSpacing
 
     #[Route('/api/users/{id}', methods: ['PUT'])]
     #[Security("is_granted('ROLE_ADMIN')")]
-    #[Validate('user')]
     public function updateUser(int $id): void
     {
-        // Implementation
         $userId = $id;
         unset($userId);
+    }
+
+    #[Validate('user')]
+    public function validateUser(): void
+    {
+        // Implementation
     }
 
 }
@@ -66,5 +69,14 @@ final class UserController
     {
         // Implementation
     }
+
+}
+
+final class UserEntity
+{
+
+    #[Route('/api/users', methods: ['GET'])]
+    #[Security("is_granted('ROLE_USER')")]
+    private string $name;
 
 }
