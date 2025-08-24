@@ -24,10 +24,12 @@ final class RequireNumericLiteralSeparator
     public const float PRECISE_VALUE = 123.456_7;
 
     /**
-     * CORRECT: Class constants using proper separators
+     * INCORRECT: Class constants without separators (will cause errors)
      */
     // 5 digits - needs separator
     public const int LARGE_NUMBER_INCORRECT = 10_000;
+
+    // 4 digits after decimal - needs separator
     public const float PRECISE_VALUE_INCORRECT = 123.456_7;
 
     /**
@@ -64,6 +66,25 @@ final class RequireNumericLiteralSeparator
     }
 
     /**
+     * INCORRECT: Numbers with 4+ digits without separators (will cause errors)
+     * Rule: Numbers with 4+ digits must use separators
+     */
+    public function incorrectLongNumbers(): void
+    {
+        // Numbers with 4+ digits - missing separators (will cause errors)
+        // 4 digits - missing separator
+        echo 1_000;
+        // 5 digits - missing separator
+        echo 10_000;
+        // 6 digits - missing separator
+        echo 100_000;
+        // 7 digits - missing separator
+        echo 1_000_000;
+        // 8 digits - missing separator
+        echo 10_000_000;
+    }
+
+    /**
      * CORRECT: Decimal numbers with 4+ digits using proper separators
      * Rule: Decimals with 4+ digits should use separators
      */
@@ -81,6 +102,23 @@ final class RequireNumericLiteralSeparator
     }
 
     /**
+     * INCORRECT: Decimal numbers with 4+ digits without separators (will cause errors)
+     * Rule: Decimals with 4+ digits must use separators
+     */
+    public function incorrectLongDecimals(): void
+    {
+        // Decimals with 4+ digits after decimal point - missing separators (will cause errors)
+        // 4 digits after decimal - missing separator
+        echo 123.456_7;
+        // 5 digits after decimal - missing separator
+        echo 123.456_78;
+        // 6 digits after decimal - missing separator
+        echo 123.456_789;
+        // 9 digits after decimal - missing separator
+        echo 1.123_456_789;
+    }
+
+    /**
      * CORRECT: Mixed long numbers using proper separators
      * Rule: Both before and after decimal point should use separators when applicable
      */
@@ -94,6 +132,23 @@ final class RequireNumericLiteralSeparator
         // Both 4+ digits - need separators
         echo 1_000.456_7;
         // Both long - need separators
+        echo 10_000.123_456;
+    }
+
+    /**
+     * INCORRECT: Mixed long numbers without separators (will cause errors)
+     * Rule: Both before and after decimal point must use separators when applicable
+     */
+    public function incorrectMixedLongNumbers(): void
+    {
+        // Mixed long numbers - missing separators (will cause errors)
+        // 4 digits before decimal - missing separator
+        echo 1_000.5;
+        // 4 digits after decimal - missing separator
+        echo 123.456_7;
+        // Both 4+ digits - missing separators
+        echo 1_000.456_7;
+        // Both long - missing separators
         echo 10_000.123_456;
     }
 
@@ -139,6 +194,21 @@ final class RequireNumericLiteralSeparator
     }
 
     /**
+     * INCORRECT: Large scientific notation base numbers without separators (will cause errors)
+     * Rule: The base number must use separators when 4+ digits
+     */
+    public function incorrectScientificWithLongBase(): void
+    {
+        // Base numbers with 4+ digits - missing separators (will cause errors)
+        // 4 digits in base - missing separator
+        echo 1_234e3;
+        // 5 digits in base - missing separator
+        echo 12_345e10;
+        // 4 digits after decimal - missing separator
+        echo 123.456_7e-3;
+    }
+
+    /**
      * CORRECT: Edge cases and boundary conditions
      */
     public function correctEdgeCases(): void
@@ -152,6 +222,23 @@ final class RequireNumericLiteralSeparator
         echo 0;
         // Negative short number
         echo -123;
+    }
+
+    /**
+     * INCORRECT: Edge cases at the 4-digit threshold without separators (will cause errors)
+     * Rule: Exactly 4 digits require separators
+     */
+    public function incorrectEdgeCases(): void
+    {
+        // Numbers at the 4-digit threshold - missing separators (will cause errors)
+        // Exactly 4 digits - missing separator
+        echo 1_000;
+        // Exactly 4 digits after decimal - missing separator
+        echo 123.1_000;
+        // Negative number with 4 digits - missing separator
+        echo -1_000;
+        // Negative decimal with 4+ digits - missing separator
+        echo -123.456_7;
     }
 
     /**
@@ -189,6 +276,25 @@ final class RequireNumericLiteralSeparator
     }
 
     /**
+     * INCORRECT: Array and object contexts without separators (will cause errors)
+     * Rule: All numbers with 4+ digits must use separators
+     */
+    public function incorrectInArrays(): void
+    {
+        // All numbers missing separators (will cause errors)
+        // All missing separators
+        echo [1_000, 2_000, 3_000];
+        echo [
+            // Missing separator
+            'decimal' => 123.456_7,
+            // Missing separator
+            'large' => 10_000,
+        ];
+        // All missing separators
+        echo 1_000 + 2_000 + 3_000;
+    }
+
+    /**
      * CORRECT: Function calls and returns using proper separators
      */
     public function correctInFunctions(): int
@@ -199,6 +305,20 @@ final class RequireNumericLiteralSeparator
         $this->processDecimal(123.456_7);
 
         // Needs separator
+        return 10_000;
+    }
+
+    /**
+     * INCORRECT: Function calls and returns without separators (will cause errors)
+     * Rule: All numbers with 4+ digits must use separators
+     */
+    public function incorrectInFunctions(): int
+    {
+        // Missing separators (will cause errors)
+        $this->processNumber(1_000);
+        $this->processDecimal(123.456_7);
+
+        // Missing separator
         return 10_000;
     }
 
