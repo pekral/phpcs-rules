@@ -29,7 +29,6 @@ enum IgnoredSniffs
         // Ignore this sniff, is deprecated for version 9.0.0
         'SlevomatCodingStandard.TypeHints.UnionTypeHintFormat',
         'SlevomatCodingStandard.ControlStructures.NewWithoutParentheses',
-        'SlevomatCodingStandard.Numbers.RequireNumericLiteralSeparator',
         'SlevomatCodingStandard.Classes.DisallowMultiConstantDefinition',
         'SlevomatCodingStandard.Classes.DisallowMultiPropertyDefinition',
         'SlevomatCodingStandard.Classes.RequireAbstractOrFinal',
