@@ -5,4 +5,5 @@
 tests/.DS_Store
 .phpunit.result.cache
 /.phpunit.result.cache
+/.phpunit.cache
 composer.lock
