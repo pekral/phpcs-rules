@@ -43,12 +43,12 @@ final class SniffHelper
         
         preg_match_all('/<rule ref="(SlevomatCodingStandard\\.[^"]+)"/', $ruleset, $ruleMatches);
 
-        $allSniffs = array_merge($allSniffs, $ruleMatches[1]);
+        $allSniffs = [...$allSniffs, ...$ruleMatches[1]];
         
         preg_match_all('/<exclude name="(SlevomatCodingStandard\\.[^"]+)"/', $ruleset, $excludeMatches);
 
         if (count($excludeMatches[1]) > 0) {
-            $allSniffs = array_merge($allSniffs, $excludeMatches[1]);
+            $allSniffs = [...$allSniffs, ...$excludeMatches[1]];
         }
 
         return array_unique($allSniffs);

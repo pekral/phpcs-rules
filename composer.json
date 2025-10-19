@@ -52,18 +52,18 @@
   },
   "require": {
     "php": "^8.4|^8.5",
-    "slevomat/coding-standard": "^8.20.0"
+    "slevomat/coding-standard": "^8.22.1"
   },
   "require-dev": {
     "roave/security-advisories": "dev-latest",
-    "symfony/console": "^7.3.2",
-    "illuminate/collections": "^12.25",
-    "phpunit/phpunit": "^12.3.6",
+    "symfony/console": "^7.3.4",
+    "illuminate/collections": "^12.34",
+    "phpunit/phpunit": "^12.4.1",
     "mockery/mockery": "^1.6.12",
     "pekral/cursor-rules": "^0.1.4",
     "pekral/phpstan-rules": "^0.4.2",
-    "pekral/rector-rules": "^0.4.1",
-    "phpcompatibility/php-compatibility": "^9.3"
+    "pekral/rector-rules": "^0.4.2",
+    "phpcompatibility/php-compatibility": "^9.3.5"
   },
   "autoload": {
     "psr-4": {
