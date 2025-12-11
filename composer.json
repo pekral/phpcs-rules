@@ -55,7 +55,7 @@
   },
   "require-dev": {
     "roave/security-advisories": "dev-latest",
-    "symfony/console": "^7.4.1",
+    "symfony/console": "^7.4.1 || ^8.0.0",
     "illuminate/collections": "^12.42.0",
     "phpunit/phpunit": "^12.5.3",
     "mockery/mockery": "^1.6.12",
