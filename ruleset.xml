@@ -277,7 +277,7 @@
     </rule>
 
     <!-- ========================= Numbers rules ========================== -->
-    <rule ref="SlevomatCodingStandard.Numbers.RequireNumericLiteralSeparator" />
+    <exclude ref="SlevomatCodingStandard.Numbers.RequireNumericLiteralSeparator.RequiredNumericLiteralSeparator" />
     <exclude name="SlevomatCodingStandard.Numbers.DisallowNumericLiteralSeparator" />
 
     <!-- ========================= Operators rules ========================== -->
