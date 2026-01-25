@@ -40,6 +40,7 @@
     <exclude name="SlevomatCodingStandard.Classes.ForbiddenPublicPropert"/>
     <rule ref="SlevomatCodingStandard.Classes.BackedEnumTypeSpacing" />
     <rule ref="SlevomatCodingStandard.Classes.ClassConstantVisibility" />
+    <rule ref="SlevomatCodingStandard.Classes.ClassKeywordOrder" />
     <rule ref="SlevomatCodingStandard.Classes.ClassLength">
         <exclude-pattern>tests/*</exclude-pattern>
     </rule>
@@ -277,7 +278,7 @@
     </rule>
 
     <!-- ========================= Numbers rules ========================== -->
-    <exclude ref="SlevomatCodingStandard.Numbers.RequireNumericLiteralSeparator.RequiredNumericLiteralSeparator" />
+    <rule ref="SlevomatCodingStandard.Numbers.RequireNumericLiteralSeparator" />
     <exclude name="SlevomatCodingStandard.Numbers.DisallowNumericLiteralSeparator" />
 
     <!-- ========================= Operators rules ========================== -->

@@ -10,5 +10,5 @@ require __DIR__ . '/vendor/autoload.php';
 
 
 $application = new Application();
-$application->add(new UnusedSniffCommand());
+$application->addCommand(new UnusedSniffCommand());
 $application->run();

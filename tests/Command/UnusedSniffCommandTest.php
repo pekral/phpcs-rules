@@ -6,40 +6,38 @@ namespace Pekral\PhpcsRulesBuild\Tests\Command;
 
 use Pekral\PhpcsRulesBuild\Command\UnusedSniffCommand;
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\Console\Application;
+use Symfony\Component\Console\Tester\CommandTester;
 
 final class UnusedSniffCommandTest extends TestCase
 {
 
-    public function testInvokeReturnsValidExitCode(): void
+    public function testExecuteReturnsValidExitCode(): void
     {
-        $output = $this->createMockOutput();
-        $command = new UnusedSniffCommand();
-        
-        $result = $command($output);
-        
-        $this->assertIsInt($result);
-        $this->assertContains($result, [0, 1]);
+        $commandTester = $this->createCommandTester();
+
+        $commandTester->execute([]);
+
+        $this->assertContains($commandTester->getStatusCode(), [0, 1]);
     }
 
-    public function testInvokeHandlesRealSniffsDirectory(): void
+    public function testExecuteHandlesRealSniffsDirectory(): void
     {
-        $output = $this->createMockOutput();
-        $command = new UnusedSniffCommand();
-        $result = $command($output);
-        
-        $this->assertIsInt($result);
+        $commandTester = $this->createCommandTester();
+
+        $commandTester->execute([]);
+
+        $this->assertIsInt($commandTester->getStatusCode());
     }
 
-    private function createMockOutput(): SymfonyStyle
+    private function createCommandTester(): CommandTester
     {
-        $output = $this->createMock(SymfonyStyle::class);
-        
-        $output->method('writeln')->willReturnSelf();
-        $output->method('info')->willReturnSelf();
-        $output->method('error')->willReturnSelf();
-        
-        return $output;
+        $application = new Application();
+        $application->addCommand(new UnusedSniffCommand());
+
+        $command = $application->find('build:check-unused-sniffs');
+
+        return new CommandTester($command);
     }
 
 }

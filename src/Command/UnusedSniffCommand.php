@@ -11,6 +11,8 @@ use RecursiveIteratorIterator;
 use SplFileInfo;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 use function array_diff;
@@ -24,8 +26,29 @@ final class UnusedSniffCommand extends Command
 {
 
     private const string BASE_PATH = __DIR__ . '/../../';
+
     private const string SNIFFS_DIR = self::BASE_PATH . '/vendor/slevomat/coding-standard/SlevomatCodingStandard/Sniffs/';
+
     private const string RULESET_FILE = self::BASE_PATH . 'ruleset.xml';
+
+    protected function execute(InputInterface $input, OutputInterface $output): int
+    {
+        $io = new SymfonyStyle($input, $output);
+
+        if (!is_dir(self::SNIFFS_DIR)) {
+            $io->writeln('Sniffs directory not found: ' . self::SNIFFS_DIR);
+
+            return Command::FAILURE;
+        }
+
+        if (!is_file(self::RULESET_FILE)) {
+            $io->writeln('Ruleset file not found: ' . self::SNIFFS_DIR);
+
+            return Command::FAILURE;
+        }
+
+        return $this->printUnusedSniffs($this->getUnusedSniffs($this->getAllAvailableSniffs()), $io);
+    }
 
     /**
      * @param array<string> $realUnused
@@ -79,23 +102,6 @@ final class UnusedSniffCommand extends Command
         }
 
         return $allSniffs;
-    }
-
-    public function __invoke(SymfonyStyle $output): int
-    {
-        if (!is_dir(self::SNIFFS_DIR)) {
-            $output->writeln('Sniffs directory not found: ' . self::SNIFFS_DIR);
-
-            return Command::FAILURE;
-        }
-
-        if (!is_file(self::RULESET_FILE)) {
-            $output->writeln('Ruleset file not found: ' . self::SNIFFS_DIR);
-
-            return Command::FAILURE;
-        }
-
-        return $this->printUnusedSniffs($this->getUnusedSniffs($this->getAllAvailableSniffs()), $output);
     }
 
 }
