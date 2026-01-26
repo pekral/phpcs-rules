@@ -59,7 +59,7 @@
     "illuminate/collections": "^12.48.1",
     "phpunit/phpunit": "^12.5.7",
     "mockery/mockery": "^1.6.12",
-    "pekral/cursor-rules": "^0.1.4",
+    "pekral/cursor-rules": "^0.1.4 || ^0.3",
     "pekral/phpstan-rules": "^0.4.5",
     "pekral/rector-rules": "^0.4.7"
   },
