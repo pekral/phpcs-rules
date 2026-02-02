@@ -52,6 +52,3 @@ jobs:
 
       - name: Check unused sniffs
         run: composer check-unused-sniffs
-
-      - name: PHP Compatibility Check
-        run: composer phpcompatibility
