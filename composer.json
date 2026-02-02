@@ -40,7 +40,7 @@
     }
   ],
   "scripts": {
-    "build": "composer fix && composer rector && composer check && composer check-unused-sniffs && composer phpstan && composer test && git gone",
+    "build": "vendor/bin/cursor-rules install --force && composer fix && composer rector && composer check && composer check-unused-sniffs && composer phpstan && composer test && git gone",
     "phpstan": "vendor/bin/phpstan analyse src/ --level=max --memory-limit=1G",
     "rector": "rector process src/ tests/ --config=vendor/pekral/rector-rules/rector.php --dry-run",
     "check": "vendor/bin/phpcs --standard=ruleset.xml Examples/ src/ tests/",
@@ -59,7 +59,7 @@
     "illuminate/collections": "^12.49.0",
     "phpunit/phpunit": "^12.5.8",
     "mockery/mockery": "^1.6.12",
-    "pekral/cursor-rules": "^0.1.4",
+    "pekral/cursor-rules": "^0.3",
     "pekral/phpstan-rules": "^0.4.5",
     "pekral/rector-rules": "^0.4.7"
   },
