@@ -1,7 +1,7 @@
 {
   "name": "pekral/phpcs-rules",
   "description": "Custom ruleset for PHP_CodeSniffer (PHPCS) with additional rules and configuration, based on Slevomat Coding Standard. Helps to enforce consistent code style and best practices in PHP projects.",
-  "type": "library",
+  "type": "phpcodesniffer-standard",
   "keywords": [
     "phpcs",
     "php-codesniffer",
@@ -51,6 +51,7 @@
   },
   "require": {
     "php": "^8.4|^8.5",
+    "dealerdirect/phpcodesniffer-composer-installer": "^1.0",
     "slevomat/coding-standard": "^8.27.1"
   },
   "require-dev": {
