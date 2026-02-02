@@ -50,7 +50,7 @@
     "test:coverage": "vendor/bin/phpunit --coverage-html coverage-report"
   },
   "require": {
-    "php": "^8.4",
+    "php": "^8.4|^8.5",
     "slevomat/coding-standard": "^8.27.1"
   },
   "require-dev": {
