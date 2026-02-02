@@ -51,13 +51,13 @@
   },
   "require": {
     "php": "^8.4",
-    "slevomat/coding-standard": "^8.27.0"
+    "slevomat/coding-standard": "^8.27.1"
   },
   "require-dev": {
     "roave/security-advisories": "dev-latest",
     "symfony/console": "^7.4.1 || ^8.0.4",
-    "illuminate/collections": "^12.48.1",
-    "phpunit/phpunit": "^12.5.7",
+    "illuminate/collections": "^12.49.0",
+    "phpunit/phpunit": "^12.5.8",
     "mockery/mockery": "^1.6.12",
     "pekral/cursor-rules": "^0.1.4",
     "pekral/phpstan-rules": "^0.4.5",
