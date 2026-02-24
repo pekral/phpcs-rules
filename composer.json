@@ -52,13 +52,13 @@
   "require": {
     "php": "^8.4",
     "dealerdirect/phpcodesniffer-composer-installer": "^1.2",
-    "slevomat/coding-standard": "^8.27.1"
+    "slevomat/coding-standard": "^8.28.0"
   },
   "require-dev": {
     "roave/security-advisories": "dev-latest",
     "symfony/console": "^7.4.1 || ^8.0.4",
-    "illuminate/collections": "^12.51.0",
-    "phpunit/phpunit": "^13.0.2",
+    "illuminate/collections": "^12.52.0",
+    "phpunit/phpunit": "^13.0.5",
     "mockery/mockery": "^1.6.12",
     "pekral/cursor-rules": "^0.4.1",
     "pekral/phpstan-rules": "^0.4.5",

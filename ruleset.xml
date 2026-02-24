@@ -48,6 +48,7 @@
     <rule ref="SlevomatCodingStandard.Classes.ClassLength">
         <exclude-pattern>tests/*</exclude-pattern>
     </rule>
+    <rule ref="SlevomatCodingStandard.Classes.TraitUseOrder" />
     <rule ref="SlevomatCodingStandard.Classes.ClassMemberSpacing" />
     <rule ref="SlevomatCodingStandard.Classes.ClassStructure" />
     <rule ref="SlevomatCodingStandard.Classes.ConstantSpacing" />
@@ -175,6 +176,7 @@
     <exclude name="SlevomatCodingStandard.ControlStructures.AbstractLineCondition" />
 
     <!-- ========================= Exceptions rules ========================== -->
+    <rule ref="SlevomatCodingStandard.Exceptions.CatchExceptionsOrder" />
     <rule ref="SlevomatCodingStandard.Exceptions.DeadCatch" />
     <rule ref="SlevomatCodingStandard.Exceptions.ReferenceThrowableOnly" />
     <rule ref="SlevomatCodingStandard.Exceptions.RequireNonCapturingCatch" />
@@ -254,6 +256,7 @@
     <rule ref="SlevomatCodingStandard.Namespaces.UnusedUses" />
     <rule ref="SlevomatCodingStandard.Namespaces.UseDoesNotStartWithBackslash" />
     <rule ref="SlevomatCodingStandard.Namespaces.UseFromSameNamespace" />
+    <rule ref="SlevomatCodingStandard.Commenting.ThrowsAnnotationsOrder" />
     <rule ref="SlevomatCodingStandard.Commenting.DeprecatedAnnotationDeclaration" />
     <exclude name="SlevomatCodingStandard.Commenting.RequireOneDocComment"/>
     <rule ref="SlevomatCodingStandard.Namespaces.UseSpacing">
