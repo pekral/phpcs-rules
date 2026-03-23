@@ -57,7 +57,7 @@
   "require-dev": {
     "roave/security-advisories": "dev-latest",
     "symfony/console": "^7.4.1 || ^8.0.4",
-    "illuminate/collections": "^12.52.0",
+    "illuminate/collections": "^13.1.1",
     "phpunit/phpunit": "^13.0.5",
     "mockery/mockery": "^1.6.12",
     "pekral/cursor-rules": "^0.4.1",
