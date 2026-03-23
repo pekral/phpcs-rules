@@ -60,7 +60,7 @@
     "illuminate/collections": "^13.1.1",
     "phpunit/phpunit": "^13.0.5",
     "mockery/mockery": "^1.6.12",
-    "pekral/cursor-rules": "^0.4.1",
+    "pekral/cursor-rules": "^0.5.1",
     "pekral/phpstan-rules": "^0.4.5",
     "pekral/rector-rules": "^0.4.8"
   },
