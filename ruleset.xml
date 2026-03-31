@@ -200,7 +200,9 @@
     <exclude name="SlevomatCodingStandard.Files.FilepathNamespaceExtractor" />
 
     <!-- ========================= Functions rules ========================== -->
-    <exclude name="SlevomatCodingStandard.Functions.StaticClosure" />
+    <rule ref="SlevomatCodingStandard.Functions.StaticClosure">
+        <exclude-pattern>tests/*</exclude-pattern>
+    </rule>
     <rule ref="SlevomatCodingStandard.Functions.ArrowFunctionDeclaration" />
     <rule ref="SlevomatCodingStandard.Functions.DisallowEmptyFunction" />
     <rule ref="SlevomatCodingStandard.Functions.FunctionLength">
