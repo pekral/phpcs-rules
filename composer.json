@@ -40,7 +40,7 @@
     }
   ],
   "scripts": {
-    "build": "vendor/bin/cursor-rules install --force && composer fix && composer rector && composer check && composer check-unused-sniffs && composer phpstan && composer test && git gone",
+    "build": "vendor/bin/cursor-rules install --force --editor=claude && composer fix && composer rector && composer check && composer check-unused-sniffs && composer phpstan && composer test && git gone",
     "phpstan": "vendor/bin/phpstan analyse src/ --level=max --memory-limit=1G",
     "rector": "rector process src/ tests/ --config=vendor/pekral/rector-rules/rector.php --dry-run",
     "check": "vendor/bin/phpcs --standard=ruleset.xml Examples/ src/ tests/",
@@ -52,17 +52,17 @@
   "require": {
     "php": "^8.4",
     "dealerdirect/phpcodesniffer-composer-installer": "^1.2",
-    "slevomat/coding-standard": "^8.28.0"
+    "slevomat/coding-standard": "^8.28.1"
   },
   "require-dev": {
     "roave/security-advisories": "dev-latest",
-    "symfony/console": "^7.4.1 || ^8.0.4",
-    "illuminate/collections": "^13.1.1",
-    "phpunit/phpunit": "^13.0.5",
+    "symfony/console": "^7.4.1 || ^8.0.8",
+    "illuminate/collections": "^13.3.0",
+    "phpunit/phpunit": "^13.1.0",
     "mockery/mockery": "^1.6.12",
-    "pekral/cursor-rules": "^0.5.1",
-    "pekral/phpstan-rules": "^0.4.5",
-    "pekral/rector-rules": "^0.4.8"
+    "pekral/cursor-rules": "dev-master",
+    "pekral/phpstan-rules": "dev-master",
+    "pekral/rector-rules": "dev-master"
   },
   "autoload": {
     "psr-4": {
