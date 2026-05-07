@@ -51,14 +51,14 @@
   },
   "require": {
     "php": "^8.4",
-    "dealerdirect/phpcodesniffer-composer-installer": "^1.2",
-    "slevomat/coding-standard": "^8.28.1"
+    "dealerdirect/phpcodesniffer-composer-installer": "^1.2.1",
+    "slevomat/coding-standard": "^8.29.0"
   },
   "require-dev": {
     "roave/security-advisories": "dev-latest",
-    "symfony/console": "^7.4.1 || ^8.0.8",
-    "illuminate/collections": "^13.3.0",
-    "phpunit/phpunit": "^13.1.0",
+    "symfony/console": "^7.4.1 || ^8.0.9",
+    "illuminate/collections": "^13.8.0",
+    "phpunit/phpunit": "^13.1.8",
     "mockery/mockery": "^1.6.12",
     "pekral/cursor-rules": "dev-master",
     "pekral/phpstan-rules": "dev-master",
