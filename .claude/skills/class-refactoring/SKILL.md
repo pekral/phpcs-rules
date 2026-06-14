@@ -42,6 +42,18 @@ This skill runs in one of two modes, selected by the caller via `MODE` (default 
 
 ## Execution
 
+### Read, Map & Verify before refactoring (mandatory pre-flight)
+
+> **`MODE=cr`:** perform Read and Map read-only to ground the proposals in the real code; Verify is the audit you already run. Do not modify code.
+
+Reading, mapping, and verifying come first; refactoring comes last. This pre-flight is **blocking** — do not edit a single line of production code until all three steps pass, and never act on an assumption you have not confirmed by reading the code.
+
+1. **Read** — open and read the actual class being refactored and the code it depends on (callers, called methods, related tests, configuration). Confirm what the code does by reading it, not by guessing from names.
+2. **Map** — map the change's blast radius: every call site and caller of the touched code, the data-flow paths through it, the public API consumers, and the existing helpers / Services / Actions / layers to reuse instead of reinventing.
+3. **Verify** — check your assumptions against the real code and its observed behavior before deciding the highest-impact refactoring. If reading and mapping contradict the task framing, stop and surface the discrepancy instead of refactoring on a wrong premise.
+
+Only after Read, Map, and Verify are complete may the Test Coverage Gate and the refactor proceed.
+
 ### Test Coverage Gate (mandatory pre-flight — issue #493)
 
 > **`MODE=cr`:** do not write tests or commits. Run the coverage check read-only and report any target lines below 100% coverage as a refactoring finding (a refactor cannot land safely without them) — then continue the analysis. The steps below that author tests / commits apply to `MODE=apply` only.
@@ -95,6 +107,7 @@ This skill runs in one of two modes, selected by the caller via `MODE` (default 
 - Use existing query scopes instead of duplicating conditions.
 - Prefer DTOs over raw arrays when the project uses them.
 - Keep Repositories limited to basic, reusable queries. When refactoring uncovers a feature-specific query method on a Repository, move it to a Service (single-model) or an Action (cross-model / cross-feature) that composes basic Repository methods (see `@rules/laravel/architecture.mdc` Repositories and ModelManagers section).
+- **Livewire / Blade view splitting.** When the refactor touches a Livewire component or Blade view (`app/Livewire/**/*.php`, `resources/views/livewire/**/*.blade.php`, `resources/views/**/*.blade.php`), analyze its HTML as a tree of UI concerns per `@rules/laravel/livewire.mdc` *HTML / Blade Layout Splitting*. Walk every trigger in that section (repeated markup, >150 Blade lines, self-contained `wire:*` cluster, self-contained data shape, cross-page reuse, independent loading / empty / error state, distinct named UI concern) and propose an extraction for each match. Pick **Livewire** children only for blocks with their own state / lifecycle / server interaction; pick **Blade** components for stateless presentation — wrapping presentational markup in a Livewire component just to enable reuse is itself a refactoring finding. Every extracted component must satisfy the **Reusability contract** in that rule (typed input, one concern, no business logic, events not parent reach-through, independently renderable, correct tree placement, concern-based name). The layout split is a structural refactor — the **Test Coverage Gate** above applies in spirit: every rendered branch of the touched view (initial render, `wire:loading`, `@empty`, error banner, each `@if` / `@foreach` arm) must be exercised by a Livewire / Blade feature test committed before the layout refactor, and the same feature tests must stay green through the refactor commit unchanged. PHP `--coverage-clover` does not measure `.blade.php` line-by-line, so the binding gate is feature-test parity, not a numeric coverage percentage on the view file.
 
 ---
 
