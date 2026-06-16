@@ -58,7 +58,7 @@
     "roave/security-advisories": "dev-latest",
     "symfony/console": "^7.4.1 || ^8.1.0",
     "illuminate/collections": "^13.15.0",
-    "phpunit/phpunit": "^13.2.0",
+    "phpunit/phpunit": "^13.2.1",
     "mockery/mockery": "^1.6.12",
     "pekral/cursor-rules": "dev-master",
     "pekral/phpstan-rules": "dev-master",
