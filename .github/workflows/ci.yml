@@ -9,15 +9,7 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        php-version: ['8.4', '8.5']
-        include:
-          - php-version: '8.4'
-            job-name: 'PHP 8.4'
-          - php-version: '8.5'
-            job-name: 'PHP 8.5'
-    name: ${{ matrix.job-name }}
+    name: Checks (PHP 8.5)
     steps:
       - name: Checkout code
         uses: actions/checkout@v5
@@ -33,7 +25,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: ${{ matrix.php-version }}
+          php-version: '8.5'
 
       - name: Install dependencies
         run: composer install --prefer-dist --no-progress --no-suggest
