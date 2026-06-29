@@ -4,6 +4,19 @@ All notable changes to this project will be documented in this file.
 
 ---
 
+## [0.5.0] - 2026-06-29
+### Changed
+- **BREAKING: Minimum required PHP version raised to 8.5** — `composer.json` now requires `php: ^8.5`. Projects still on PHP 8.4 should stay on the 0.4.x line.
+- CI now runs every check (tests, PHPCS, PHPStan, Rector, unused-sniffs) on a single worker for PHP 8.5; the previous 8.4/8.5 build matrix was removed to reduce GitHub Actions usage.
+- Re-enabled `SlevomatCodingStandard.Functions.StaticClosure` outside tests.
+- Excluded `SlevomatCodingStandard.Classes.ReadonlyClass` from the active ruleset.
+- Routine Composer dependency updates.
+
+### Chore
+- Ignore the local `/.claude` tooling directory via `.gitignore`.
+
+---
+
 ## [0.4.2] - 2025-08-24
 ### Added
 - **New Rules Added:**
