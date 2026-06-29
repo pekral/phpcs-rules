@@ -36,6 +36,7 @@
     <exclude name="SlevomatCodingStandard.Attributes.DisallowMultipleAttributesPerLine" />
 
     <!-- ========================= Classes rules ========================== -->
+    <exclude name="SlevomatCodingStandard.Classes.ReadonlyClass"/>
     <exclude name="SlevomatCodingStandard.Classes.RequireAbstractOrFinal"/>
     <rule ref="SlevomatCodingStandard.Classes.ForbiddenPublicProperty">
         <!-- Ignore for Laravel projects -->

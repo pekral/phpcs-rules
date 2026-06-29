@@ -129,10 +129,10 @@ This is a **blocking loop**. Do not advance to **Finalization**, **PR update**, 
 2. **Run the review inline.** Invoke the appropriate CR wrapper directly in this skill's context — do not dispatch as a subagent. Each iteration re-invokes the CR wrapper inline so it reloads the diff after the latest fix commit:
    - GitHub: `@skills/code-review-github/SKILL.md`
    - JIRA: `@skills/code-review-jira/SKILL.md`
-   The invocation **must** include the explicit quiet-mode instruction (see **Quiet review runs** below). The review run **must not** publish to the PR or to the issue tracker during loop iterations — capture findings in memory only.
-3. Count `criticalCount` and `moderateCount` in the latest review.
-4. If `criticalCount + moderateCount == 0` → **converged**, exit the loop.
-5. Otherwise, apply the **Suggested Fix** snippet from each Critical / Moderate finding using the **Reproducer extraction** workflow above, run pre-push quality gates on touched files, increment `iteration`, and go back to step 2.
+   The invocation **must** include the explicit quiet-mode instruction (see **Quiet review runs** below). The review run **must not** publish to the PR or to the issue tracker during loop iterations — capture findings in memory only. Each iteration's CR wrapper runs its **Reviewer Comment Fulfillment Gate** (canonically defined in `@skills/code-review-github/SKILL.md`), so the review reloads every reviewer comment / thread and re-verifies that the fixes applied in the previous iteration actually satisfy each reviewer instruction.
+3. Count `criticalCount` and `moderateCount` in the latest review, and read the `reviewer comments: M/N fulfilled` verdict the wrapper records. Let `unfulfilledCount = N − M` (the reviewer instructions still not satisfied and not rejected-with-reason). Each not-fulfilled instruction is already raised by the gate as a Critical finding, so it is included in `criticalCount` — `unfulfilledCount` is tracked separately only to make the convergence condition and the loop report explicit.
+4. If `criticalCount + moderateCount == 0` **and** `unfulfilledCount == 0` → **converged**, exit the loop. The run may **not** converge while any reviewer comment is still not fulfilled (the change does not yet correspond to what the reviewer asked for) — fulfilling every loaded reviewer instruction is a first-class convergence condition alongside the zero-Critical / zero-Moderate gate.
+5. Otherwise, apply the **Suggested Fix** snippet from each Critical / Moderate finding (including each not-fulfilled reviewer-instruction finding) using the **Reproducer extraction** workflow above, run pre-push quality gates on touched files, increment `iteration`, and go back to step 2.
 6. If `iteration > maxIterations` and the loop still has not converged, **stop and surface the remaining findings** to the user — do not push or publish a partial report. The user must triage the residual findings manually before any final report goes out.
 
 #### Quiet review runs (during the loop)
@@ -155,7 +155,7 @@ This is a **blocking loop**. Do not advance to **Finalization**, **PR update**, 
 
 - Do **not** auto-invoke `@skills/test-like-human/SKILL.md`. The user-perspective testing skill runs **on demand only** — leave it for the user to trigger via `/test-like-human` after the PR is updated.
 - Commit and push changes
-- If PR does not exist, create it according to @rules/git/general.mdc
+- If PR does not exist, create it according to @rules/git/general.mdc — as a **Draft** (`gh pr create --draft`) per *Draft pull requests*; the **Promote the PR out of Draft** step below marks it ready once this converged run is published
   - Title in English (per `@rules/git/general.mdc`)
   - Body in the assignment language (per `@rules/reports/general.mdc`)
 
@@ -165,10 +165,10 @@ This is a **blocking loop**. Do not advance to **Finalization**, **PR update**, 
 
 **Precondition:** same as Finalization — convergence required.
 
-- Publish the resolved-items report through the publish helper using the dedicated `cr-status` marker namespace, so the status comment is identifiable as a status post (separate from the CR comment in the `cr-comment` namespace). Concretely:
+- Publish the resolved-items report through the publish helper using the dedicated `cr-status` marker namespace. On GitHub, the marker makes the status comment identifiable as a status post (separate from the `cr-comment` namespace); on JIRA the helper ignores the marker argument, so `cr-status` and `cr-comment` posts are distinguished by content only (resolved-items body vs. `## Pre-existing fixes` section vs. CR findings). Concretely:
   - GitHub PR: `skills/code-review-github/scripts/upsert-comment.sh <PR-NUMBER|URL> - cr-status` (body on stdin). The helper appends `<!-- cr-status:actor=<gh-login> -->` to the body for traceability and **POSTs a new comment on every run** — it never PATCHes a prior status comment. Action (`created`) is logged on stderr; include it in the in-conversation completion report.
-  - JIRA-originated reviews that also mirror to a JIRA ticket: `skills/code-review-jira/scripts/upsert-comment.sh <KEY|URL> - cr-status`. The helper appends `{anchor:cr-status-actor-<slug>}` and edits / adds the comment via `acli` (JIRA MCP fallback on exit code 4) — JIRA-side upsert behavior is unchanged.
-- Do **not** quote / reply to a previous CR or status comment — the always-new-comment convention (GitHub) replaces the previous quoting / in-place edit flow entirely, and every converge run adds its own self-contained status comment so the chronological sequence is the audit trail. The CR comment (`cr-comment` namespace) stays untouched by this skill.
+  - JIRA-originated reviews that also mirror to a JIRA ticket: `skills/code-review-jira/scripts/upsert-comment.sh <KEY|URL> - cr-status`. The helper POSTs a new comment on every run — it never edits a prior status comment in place. Fall back to the JIRA MCP server's `addCommentToJiraIssue` on exit code 2/3.
+- Do **not** quote / reply to a previous CR or status comment — the always-new-comment convention (both GitHub and JIRA) replaces the previous quoting / in-place edit flow entirely, and every converge run adds its own self-contained status comment so the chronological sequence is the audit trail. The CR comment (`cr-comment` namespace) stays untouched by this skill.
 - Mark resolved items (checkbox or inline) inside the freshly posted body in all cases.
 - When **Pre-fix phase** produced at least one pre-existing fix commit, render a dedicated `## Pre-existing fixes` section in the `cr-status` body listing each commit subject (`fix/refactor(<scope>): pre-existing — …`) with a one-line rationale derived from the commit body, so reviewers can review the pre-existing fixes independently of the CR thread. Omit the section entirely when no pre-existing fix landed (consistent with the always-omit-empty-section convention).
 
@@ -183,6 +183,14 @@ gh api graphql -f query='mutation($threadId:ID!){ resolveReviewThread(input:{thr
 - Resolve **only** threads that were fixed. Leave a thread unresolved when its point was rejected or deferred, and record the rejection reason in the `cr-status` report instead of resolving it.
 - If `gh api graphql` is unavailable, fall back to the GitHub MCP server's resolve-review-thread operation.
 - Resolving a thread is a GitHub PR state change, not a code change — it stays within the read-fixes-push-resolve flow this skill already owns and never touches the protected main branch.
+
+#### Promote the PR out of Draft (GitHub)
+
+Convergence is exactly the moment the PR becomes ready to merge, so this skill owns the Draft → ready transition per `@rules/git/general.mdc` *Draft pull requests*:
+
+- Because this step runs only after the **Review loop converged** (`criticalCount + moderateCount == 0`), mark the PR ready for review now: `gh pr ready <PR-NUMBER|URL>`. This is the same class of GitHub PR state change as resolving a review thread, not a code change.
+- Do **this only on a converged loop.** If the loop hit `maxIterations` without converging, the PR stays a Draft — never promote a PR that still carries Critical / Moderate findings.
+- A PR that was already non-draft stays non-draft; `gh pr ready` is idempotent. If `gh pr ready` is unavailable, fall back to the GitHub MCP server's mark-ready operation.
 
 #### Per-item justification (required)
 
@@ -209,10 +217,12 @@ Rules:
 - **Run the final publishing run inline.** Invoke the appropriate CR wrapper directly in this skill's context with publishing enabled — this is the **only** review whose output reaches the PR / issue tracker. The invocation must include the PR URL, the converged state (Critical + Moderate == 0), and the instruction to post the final PR comment + linked-issue / JIRA mirror per the CR wrapper's contract. Do not dispatch as a subagent — run it sequentially in the current context:
   - GitHub: `@skills/code-review-github/SKILL.md`
   - JIRA: `@skills/code-review-jira/SKILL.md`
+- **Record durable lessons.** After the final publish, run `@skills/record-project-memory/SKILL.md` with the converged CR context and the PR link. It appends to `docs/memory/PROJECT_MEMORY.md` only the lessons that clear the promotion bar in `@rules/compound-engineering/general.mdc` *Compound Memory (per project)* (a recurring CR finding is the canonical input); a CR that surfaced nothing durable records nothing.
 - Share a concise completion report (in-conversation, not on the tracker):
   - PR link
   - resolved items
   - reviewer threads resolved (count) and any left unresolved with the rejection / deferral reason
+  - reviewer comments fulfilled (the final `M/N fulfilled` verdict) — every actionable reviewer instruction satisfied, or rejected/deferred with its recorded reason
   - loop iteration count and final convergence status
   - remaining blockers (if any — should be empty when convergence was reached)
 
@@ -226,6 +236,7 @@ Rules:
 - Keep changes traceable to review comments
 - Ensure every review comment is explicitly addressed
 - Treat unresolved GitHub reviewer threads as first-class checklist items; skip already-resolved threads, and resolve a thread only after its fix lands
+- Do not converge until every actionable reviewer comment is verified fulfilled — the applied change must correspond to what the reviewer asked for, not merely produce zero new Critical / Moderate findings
 - Avoid unnecessary commits or noise
 
 ## Output Humanization

@@ -21,7 +21,7 @@ Focus on:
 ---
 
 ## Constraints
-- Apply @rules/php/core-standards.mdc
+- Apply `@rules/php/core-standards.mdc` **only once it is established that the project is a PHP project (PHP stack in `composer.json`) and the analyzed change touches PHP code** — skip it for a non-PHP problem (docs, tooling, infra, markdown, config); do not load the PHP standards for an analysis that does not touch PHP.
 - Apply @rules/compound-engineering/general.mdc — the pre-implementation research and the plan artifact below exist so the analysis compounds: it grounds the work in what already exists and leaves a reusable plan behind.
 - Never modify code
 - Output Markdown only
@@ -48,7 +48,7 @@ Focus on:
 
 Apply these 10 steps in order. Each step feeds the next — never jump ahead to a solution before evidence and root cause are settled.
 
-1. **Context extraction** — what we actually know from the assignment, comments, attachments, and surrounding code.
+1. **Context extraction** — what we actually know from the assignment, comments, attachments, and surrounding code. First **consult the per-project compound memory** (`docs/memory/PROJECT_MEMORY.md` per `@rules/compound-engineering/general.mdc` *Compound Memory (per project)*): read it when present and reuse any entry whose `Trigger:` matches this problem instead of re-deriving a lesson the project already recorded. Apply the per-role read filter from `@rules/compound-engineering/general.mdc` *Read protocol* — load only entries where `Role: metis` or `Role: shared`; skip entries tagged for other roles.
 2. **Problem statement** — one precise sentence describing the real problem.
 3. **Expected vs actual behavior** — what should happen, and what is happening instead.
 4. **Evidence** — logs, screenshots, issue comments, files, reproduction steps. Verified facts only.

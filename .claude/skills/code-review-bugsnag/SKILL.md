@@ -19,7 +19,7 @@ Perform code review for a fix linked to a Bugsnag error by analyzing the related
 ## Constraints
 - Apply @rules/git/general.mdc
 - Apply @rules/reports/general.mdc. The **GitHub PR technical comment** this skill posts (Status / Counts / Findings / Refactoring / Database Analysis / Coverage / Summary) stays in canonical English per the rule's *Exception — technical CR findings on the GitHub PR*. The **Bugsnag error comment** delegated to `@skills/pr-summary/SKILL.md` and the **mirrored linked-GitHub-issue summary** follow the language of the source assignment. Never mix languages inside the same comment.
-- **Read-only skill** — never modify code, never stage / commit / push changes, and never run any git write operation (`git add`, `git commit`, `git push`, `git reset`, `git checkout -- …`, etc.). Switching to the relevant branch and `git pull` to read the latest diff are allowed; mutating the working tree or pushing to the remote is not. Publishing is limited to PR / linked-issue comments via `gh` and to the Bugsnag error comment via `skills/code-review-bugsnag/scripts/upsert-comment.sh`.
+- **Read-only skill** — never modify code, never stage / commit / push changes, and never run any git write operation (`git add`, `git commit`, `git push`, `git reset`, `git checkout -- …`, etc.). Checking out the relevant branch and `git pull` to read the latest code are **required** (the mandatory Branch checkout gate below); mutating the working tree or pushing to the remote is not. Publishing is limited to PR / linked-issue comments via `gh` and to the Bugsnag error comment via `skills/code-review-bugsnag/scripts/upsert-comment.sh`.
 - Bugsnag output must be understandable for non-developers
 - Output findings only (no praise)
 
@@ -29,10 +29,11 @@ Perform code review for a fix linked to a Bugsnag error by analyzing the related
 
 ### 1. Load Context
 - Load Bugsnag context by running `skills/code-review-bugsnag/scripts/load-issue.sh <URL|TRIPLE>` — the single deterministic entry point. Requires `BUGSNAG_TOKEN` (a Data Access API token). Never call `api.bugsnag.com` directly. Read the error class, `message`, `context`, `status`, `severity`, `latestEvent.stacktrace` (the in-project frames are the reproduction entry point), `comments[]`, and `linkedIssues[]` off the resulting JSON document.
+- For a single ready-to-read context brief — the error header, latest event (app version, failing request, in-project stacktrace frames), comments, linked issues, and an inventory of external URLs, rendered as Markdown — run `skills/code-review-bugsnag/scripts/gather-issue-context.sh <URL|TRIPLE>` instead of hand-assembling the JSON. To read only the comments as a structured array, use `skills/code-review-bugsnag/scripts/parse-comments.sh <URL|TRIPLE>`. Both build on `load-issue.sh`, so the same exit codes, `BUGSNAG_TOKEN` requirement, and MCP fallback apply. `linkedIssues` point at GitHub — load that linked issue with `skills/code-review-github/scripts/gather-issue-context.sh <URL>` when you need its full context.
 - The script accepts an `app.bugsnag.com/<org>/<project>/errors/<id>` URL or an `<org>/<project>/<error-id>` triple.
 - If the script is unavailable (missing tool/token, exit code 2/3) fall back to a Bugsnag MCP server.
 - Identify the linked PR to review from the error's `linkedIssues[]` (the mirrored GitHub issue/PR). Load that PR with `skills/code-review-github/scripts/load-issue.sh <URL>` to get the diff, `commits[]`, and `closingIssues[]`.
-- Before reviewing the PR, switch to the PR branch and pull latest changes.
+- **Branch checkout gate (mandatory, always).** Before running any review step, check out the PR branch (`headRefName` from the loaded PR JSON) and pull the latest commits — `git fetch origin`, `git checkout <headRefName>`, `git pull` — so the review always runs against the **actual current codebase on disk (the checked-out working tree)**, never against the remote diff in isolation. Confirm local `HEAD` equals the PR head SHA. If the checkout fails (missing ref, detached `HEAD`, or local changes that would be overwritten), **stop and report it** instead of reviewing from the diff. Every sub-review then reads the checked-out files.
 
 #### Issue Context Analysis
 Before reviewing code, treat the Bugsnag error as the assignment:
@@ -42,7 +43,12 @@ Before reviewing code, treat the Bugsnag error as the assignment:
 3. Read every entry in `comments[]` for human-authored context (e.g. "Fixed in db", reproduction notes), plus any acceptance criteria on the linked GitHub issue.
 4. Verify the fix is covered by a regression test that fails before and passes after. Flag missing coverage as a finding.
 
+#### Reviewer Comment Fulfillment Gate (mandatory)
+
+Run the **Reviewer Comment Fulfillment Gate** defined canonically in `@skills/code-review-github/SKILL.md` against the **GitHub PR** linked to this Bugsnag error — that is where this skill publishes technical CR findings and where reviewer comments and line-anchored review threads live. After loading all PR comments, verify each actionable reviewer instruction is satisfied by the current checked-out diff (the applied change corresponds to what the reviewer asked for), raise one **Critical** finding per not-fulfilled instruction on the GitHub PR comment with the four reproducer fields, and record the `reviewer comments: M/N fulfilled` verdict on the GitHub PR comment summary line. The Bugsnag non-technical comment never carries this gate's findings.
+
 ### 2. Pre-checks
+- **CI coverage of checks.** Read `statusCheckRollup[]` from the GitHub PR JSON loaded in step 1 (via `skills/code-review-github/scripts/load-issue.sh`). Identify which checks ran on the PR head commit (`headRefOid`) and their result. Pass this CI check map to the Coverage gate decision in `@skills/code-review/SKILL.md` (Validation → Coverage gate; the Reuse-CI-results detail now lives in `@rules/code-review/general.mdc` *Validation & Coverage Gate*) so only missing or non-green checks are run locally.
 - If the linked PR has conflicts → skip review for that PR.
 - If the error has no linked PR yet → report "no linked PR — review skipped" and stop.
 

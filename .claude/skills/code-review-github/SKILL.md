@@ -17,7 +17,7 @@ Run a full code review for GitHub pull requests and publish findings directly to
 ## Constraints
 - Apply @rules/git/general.mdc
 - Apply @rules/reports/general.mdc. The **technical CR PR comment** this skill posts on the GitHub PR (Status / Counts / Findings / Refactoring / Coverage / Summary) stays in canonical English per the rule's *Exception — technical CR findings on the GitHub PR*. The **non-technical mirror** delegated to `@skills/pr-summary/SKILL.md` for every `closingIssues[]` linked GitHub issue follows the language of the source assignment. Never mix languages inside the same comment; never use bilingual *Kritické (Critical)* style parentheses.
-- **Read-only skill** — never modify code, never stage / commit / push changes, and never run any git write operation (`git add`, `git commit`, `git push`, `git reset`, `git checkout -- …`, etc.). Switching to the relevant branch and `git pull` to read the latest diff are allowed; mutating the working tree or pushing to the remote is not. Publishing is limited to PR / linked-issue comments via `gh`.
+- **Read-only skill** — never modify code, never stage / commit / push changes, and never run any git write operation (`git add`, `git commit`, `git push`, `git reset`, `git checkout -- …`, etc.). Checking out the relevant branch and `git pull` to read the latest code are **required** (the mandatory Branch checkout gate below); mutating the working tree or pushing to the remote is not. Publishing is limited to PR / linked-issue comments via `gh`.
 - Output findings only (no praise)
 
 ---
@@ -26,10 +26,11 @@ Run a full code review for GitHub pull requests and publish findings directly to
 
 ### 1. Load Context
 - Load PR context by running `skills/code-review-github/scripts/load-issue.sh <NUMBER|URL>` — the single deterministic entry point. Never call `gh issue view`, `gh pr view`, or `gh api /repos/.../issues/...` directly. Read PR header, description, comments, commits, files, reviews, status checks, and `closingIssues` off the resulting JSON document.
+- For a single ready-to-read context brief — the issue/PR plus its body, comments, changed files, commits, reviews, CI checks, recursively-loaded linked issues/PRs, and an inventory of external URLs, rendered as Markdown — run `skills/code-review-github/scripts/gather-issue-context.sh <NUMBER|URL>` instead of hand-assembling the JSON. To read only the comments as a structured array, use `skills/code-review-github/scripts/parse-comments.sh <NUMBER|URL>`. Both build on `load-issue.sh`, so the same exit codes and MCP fallback apply. Attachment content and the inventoried URLs are not fetched by the scripts — read them with your own tools when a finding depends on them.
 - Load each linked issue (from `closingIssues[]`) the same way — pass its number or URL to the same script.
 - If the script is unavailable (missing tool, exit code 2/3) fall back to the GitHub MCP server. Always prefer the MCP fallback for data the script cannot cover: review-thread / line-anchored comments, per-commit check runs, and binary attachment contents.
 - If multiple PRs exist for one issue, review each independently
-- Before reviewing a PR, switch to the PR branch and pull latest changes
+- **Branch checkout gate (mandatory, always).** Before running any review step, check out the PR branch (`headRefName` from the loaded JSON) and pull the latest commits — `git fetch origin`, `git checkout <headRefName>`, `git pull` — so the review always runs against the **actual current codebase on disk (the checked-out working tree)**, never against the `gh` remote diff in isolation. Confirm local `HEAD` equals the PR head SHA from the loaded context. If the checkout fails (missing ref, detached `HEAD`, or local changes that would be overwritten), **stop and report it** instead of reviewing from the diff. Every sub-review then reads the checked-out files.
 
 #### Issue Context Analysis
 Before reviewing code, load and analyze the full linked issue:
@@ -43,7 +44,21 @@ Before reviewing code, load and analyze the full linked issue:
 3. Use this context to evaluate whether the implementation fully satisfies the issue — not just whether the code is technically correct.
 4. If the issue contains test data or test scenarios, verify they are covered by existing or new tests. Flag missing test coverage as a finding.
 
+#### Reviewer Comment Fulfillment Gate (mandatory)
+
+Every CR run is also a verification that the reviewer feedback **already on the PR** was actually carried out. After loading **all** PR comments, the next CR iteration must confirm that each reviewer's comment is satisfied by the current diff and that the applied change corresponds to what the reviewer asked for — not merely that no new Critical / Moderate findings appeared. This is the gate that closes the loop with `@skills/process-code-review/SKILL.md`: the previous round applies fixes, this gate verifies they match the instructions before the run can converge.
+
+1. **Load every reviewer comment.** Read the PR's general comments and review summaries off the JSON loaded in step 1, **and** fetch the line-anchored review threads (resolved **and** unresolved) with the GraphQL `reviewThreads` connection documented in `@skills/process-code-review/SKILL.md` (*Load unresolved reviewer threads*). Page until `reviewThreads.pageInfo.hasNextPage == false` and page each thread's `comments` the same way — a truncated list breaks the "every reviewer comment" guarantee. Include human reviewers **and** review bots; exclude this skill's own status posts (the `<!-- cr-comment:… -->` / `<!-- cr-status:… -->` marker bodies).
+2. **Keep only actionable instructions.** Discard greetings, plain approvals (`LGTM`, `:+1:`), and questions already answered in a later reply on the same thread. The remaining set is the reviewer instructions this PR must satisfy.
+3. **Verify each instruction against the checked-out diff.** For every instruction, read the code path it targets on the checked-out branch and classify it:
+   - **Fulfilled** — the current diff implements exactly what the reviewer asked; the corresponding review thread is resolved or ready to be resolved.
+   - **Not fulfilled** — no change implements the instruction, or the change does not match what was asked (partial fix, wrong target, or a different change that does not satisfy the reviewer's intent).
+   - **Rejected / deferred with a recorded reason** — the PR author replied on the thread (or the PR description states) why the instruction is not applied; treat as resolved for this gate and carry the reason into the summary, do not raise a finding.
+4. **Raise one finding per not-fulfilled instruction.** Severity **Critical** (the PR carries unaddressed review feedback). Cite the reviewer comment URL, the `file:line` the instruction targets, the instruction in one sentence, and the four reproducer fields — **Faulty Example** (the current code that still violates the instruction), **Expected Behavior** (the state the reviewer asked for), **Test Hint**, **Suggested Fix** (the change that satisfies the instruction). A free-form reviewer instruction that implies no behavior change (naming, dead code, readability) carries the Suggested Fix only and may use `n/a — <reason>` for the snippet, mirroring the reproducer exemption in `@skills/process-code-review/SKILL.md`.
+5. **Record the fulfillment verdict on the summary line:** `reviewer comments: M/N fulfilled` (M = fulfilled or rejected-with-reason, out of N actionable). When `M == N` the gate is clean; when `M < N` it has raised `N − M` Critical findings, so the run cannot converge until the next `process-code-review` round addresses them.
+
 ### 2. Pre-checks
+- **CI coverage of checks.** From the `statusCheckRollup[]` in the loaded PR JSON, identify which checks ran on the PR head commit (`headRefOid`) and their result (`state` / `conclusion`). Pass this CI check map to the Coverage gate decision in `@skills/code-review/SKILL.md` (Validation → Coverage gate; the Reuse-CI-results detail now lives in `@rules/code-review/general.mdc` *Validation & Coverage Gate*) so only missing or non-green checks are run locally.
 - If PR has merge conflicts → cancel review
 
 ### 3. Run Reviews
@@ -127,6 +142,7 @@ Before reviewing code, load and analyze the full linked issue:
 - When the diff touches database operations (per the trigger list in `@skills/code-review/SKILL.md` Specialized Reviews), the posted PR comment must include a dedicated `## Database Analysis` section **before** `## Coverage`. The section reports only the `mysql-problem-solver` findings (with severity mirroring Critical / Moderate / Minor) and the proposed query rewrite / index reuse / batching fix per `@rules/sql/optimalize.mdc`. Do not include the queries / migrations inspected list or any EXPLAIN / static-analysis summary — those stay inside the internal investigation. When no DB operations are present, omit the section entirely.
 - The posted PR comment includes a `## Coverage` section before the summary line **only** when the coverage gate has something to report — uncovered changed lines (Critical findings) or unavailable / non-runnable coverage tooling (Critical finding). When every changed line is at 100% coverage and the tool ran successfully, omit the `## Coverage` section, the `Coverage:` header line, and the `coverage …` slot from the summary line per `@skills/code-review/SKILL.md` Output Rules. The coverage gate itself (per the Coverage gate in `@skills/code-review/SKILL.md`) still runs on every review; only the user-visible section is short-circuited.
 - The PR comment summary line must report the issue-tracker summary status — `posted summary to issue #N` (or comma-separated list when multiple), `no linked issue — issue summary skipped`, or `failed to post on issue #N: <reason>` when a permission / network error occurs. Never post a CR comment without it.
+- The PR comment summary line must also carry the **Reviewer Comment Fulfillment Gate** verdict — `reviewer comments: M/N fulfilled` (or `reviewer comments: none` when the PR carries no actionable reviewer instruction). Each not-fulfilled instruction appears as its own Critical finding in the `Findings` section, so the Counts line and this verdict stay consistent.
 - End with summary line
 
 ## Output Format

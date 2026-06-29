@@ -46,10 +46,20 @@ Before starting the resolution flow:
    - **JIRA:** the issue project key must match the configured JIRA project for this repository.
    - **Bugsnag:** the error's linked GitHub issue/PR repository (`linkedIssues[]` in the loaded JSON) must match the current Git remote origin. When the error has no linked GitHub issue, confirm the Bugsnag project corresponds to this repository before proceeding.
    - If the issue does not belong to the current project, refuse to process it and inform the user.
+   - **The issue must be open / active.** Read the status field off the loaded JSON and refuse to resolve a task that is already closed / resolved / done:
+     - **GitHub:** the issue (or PR) `state` must be `OPEN`. Refuse when it is `CLOSED`.
+     - **JIRA:** the issue must not sit in a terminal status — anything in the `Done` status category (`Done`, `Closed`, `Resolved`, `Cancelled`, or the project's equivalent). Refuse when it is.
+     - **Bugsnag:** the error `status` must be `open`. Refuse when it is `fixed`, `ignored`, or `snoozed`.
+   - If the issue is not open / active, **do not resolve it** — stop and inform the user that the task is closed and must be reopened before it can be worked on.
+   - **Claim the issue immediately** (per `@rules/compound-engineering/general.mdc` *Claim a tracker issue before working on it*). Do this before any code change.
+     - **GitHub:** re-read the issue via `skills/code-review-github/scripts/load-issue.sh <URL>`. If the label `Resolve_by_AI:in-progress` is already present → another run owns it → **abort** with the message `Issue #<N> already claimed (Resolve_by_AI:in-progress) — another run is working on it`. If absent → apply it: `gh issue edit <N> --add-label "Resolve_by_AI:in-progress"`. Then **re-read and verify** the label actually landed (external writes can be silently blocked in auto-mode; verify against the tracker, not just the command exit code). If it did not land → **abort** rather than proceed unclaimed. Note: the apply-then-verify is not perfectly atomic (GitHub has no CAS on labels), but it collapses the race window to the gap between two loader reads — adequate to stop two long-running agent pipelines from colliding.
+     - **JIRA:** run `skills/code-review-jira/scripts/transition-to-in-progress.sh <KEY|URL>`. Exit 0 = claimed (or idempotent no-op for this run). Exit 4 = issue is already past In Progress from another run → **abort** with the message `Issue <KEY> is already past In Progress — another run may be working on it`. Exit 5 = target status name differs for this project — discover the real name via the JIRA MCP server's available-transitions and re-run with it as the `STATUS` argument, or ask a human. Any other non-zero exit → stop and report the failure. This is the second sanctioned status transition (the first is the Code Review transition on PR open); all others remain human-only.
+     - **Bugsnag:** no claim step. Bugsnag has no auto-claim mechanism; parallel-collision protection for Bugsnag is a known limitation — rely on the human/linked-issue workflow.
+     - **Release on Blocked / abort (before PR):** if this run stops `Blocked` or aborts before a PR is opened, it must release its own GitHub claim label: `gh issue edit <N> --remove-label "Resolve_by_AI:in-progress"`. JIRA does not auto-revert (transitions back are human-only); name the issue key in the Blocked handoff so a human can reset it. If the claim was never applied (e.g. abort happened before the claim step), skip the release.
 2. Fetch and analyze the issue from the detected source by running the deterministic loader for that tracker — never call `gh`, `acli`, or REST endpoints directly. Read all required fields off the resulting JSON document.
-   - **GitHub:** `skills/code-review-github/scripts/load-issue.sh <NUMBER|URL>`. If the script is unavailable (missing tool, exit code 2/3), fall back to the GitHub MCP server.
-   - **JIRA:** `skills/code-review-jira/scripts/load-issue.sh <KEY|URL>`. If the script is unavailable (missing tool, exit code 2/3), fall back to the JIRA MCP server.
-   - **Bugsnag:** `skills/code-review-bugsnag/scripts/load-issue.sh <URL|TRIPLE>` (requires `BUGSNAG_TOKEN`). The JSON carries the error class, message, status, `context`, the in-project `latestEvent.stacktrace` frames (the entry point for the TDD reproduction), `comments[]`, and `linkedIssues[]` (the mirrored GitHub issue/PR). If the script is unavailable (missing tool/token, exit code 2/3), fall back to a Bugsnag MCP server.
+   - **GitHub:** `skills/code-review-github/scripts/load-issue.sh <NUMBER|URL>` for the structured JSON, or `skills/code-review-github/scripts/gather-issue-context.sh <NUMBER|URL>` for a full Markdown context brief in one pass (issue/PR + comments + changed files + commits + reviews + CI checks + recursively-loaded linked issues/PRs + an inventory of external URLs to follow). Read attachment content and the inventoried URLs with your own tools; follow useful links recursively to a sensible depth. If the script is unavailable (missing tool, exit code 2/3), fall back to the GitHub MCP server.
+   - **JIRA:** `skills/code-review-jira/scripts/load-issue.sh <KEY|URL>` for the structured JSON, or `skills/code-review-jira/scripts/gather-issue-context.sh <KEY|URL>` for a full Markdown context brief in one pass (issue + comments + attachments + recursively-loaded linked issues + an inventory of external URLs to follow). Read attachment content and the inventoried URLs with your own tools — `acli` cannot fetch them; follow useful links recursively to a sensible depth. If the script is unavailable (missing tool, exit code 2/3), fall back to the JIRA MCP server.
+   - **Bugsnag:** `skills/code-review-bugsnag/scripts/load-issue.sh <URL|TRIPLE>` (requires `BUGSNAG_TOKEN`), or `skills/code-review-bugsnag/scripts/gather-issue-context.sh <URL|TRIPLE>` for a full Markdown context brief in one pass (error header + latest event + in-project stacktrace + comments + linked issues + an inventory of external URLs). The JSON carries the error class, message, status, `context`, the in-project `latestEvent.stacktrace` frames (the entry point for the TDD reproduction), `comments[]`, and `linkedIssues[]` (the mirrored GitHub issue/PR). If the script is unavailable (missing tool/token, exit code 2/3), fall back to a Bugsnag MCP server.
 3. Define exact requirements and expected behavior.
 4. Classify the task (bug or feature).
 
@@ -89,7 +99,7 @@ Only after Read, Map, and Verify are complete may phase planning and implementat
 
 ### Phase planning (commit plan)
 
-Before writing any code, decide how the in-scope work will be split into commits within the PR.
+Before writing any code, decide how the in-scope work will be split into commits within the PR, applying the **one phase = one commit** rule from `@rules/git/general.mdc` *Git Rules*.
 
 1. **Detect existing phases** in the issue description and the kept comments. Phase markers include explicit headings such as `Phase 1`, numbered milestones, ordered acceptance-criteria blocks, or a step-by-step plan written by the reporter.
 2. **If phases exist:** treat each phase as exactly **one commit**. Keep the original phase order as commit order. Do not merge, reorder, or re-scope phases.
@@ -121,9 +131,14 @@ Rules:
 5. If a pre-existing issue is **non-trivial** (would significantly expand the PR, requires architectural decisions, or affects shared infrastructure beyond the touched files), do **not** fix it inline. Move it to the *Out of scope (deferred)* group from step 7 and surface it under the PR's `## TODO` section with a one-line reason for deferral.
 
 ### If bug
-8. Reproduce the issue if possible.
-9. Write or update a test capturing the failure.
-10. Confirm the failure before applying the fix.
+
+**Mandatory: strict TDD — failing test first, blocking.**
+
+Run `@skills/test-driven-development/SKILL.md` as the governing cycle for every bug fix. The Iron Law (`NO PRODUCTION CODE WITHOUT A FAILING TEST FIRST`) applies without exception:
+
+8. Write or update a test that reproduces the bug (the failing test). Follow the RED step in `@skills/test-driven-development/SKILL.md`.
+9. **Verify RED** — run the test and confirm it fails for the expected reason, not because of a syntax, setup, or typo issue. **Do not proceed to the fix until the test is observed failing.** This step is mandatory and blocking.
+10. Apply the fix (GREEN step) — write the smallest production change that makes the test pass, then verify all relevant tests pass.
 
 ### If feature
 8. Design a minimal implementation aligned with project architecture.
@@ -169,8 +184,9 @@ Resolve any **Critical** or **Moderate** finding from the security review before
 
 Once review and testing are clean:
 
-- Create a branch and commit changes following `@rules/git/general.mdc`
-- Create a pull request with:
+- Create a branch (name always in English, regardless of the assignment language) and commit changes following `@rules/git/general.mdc`
+- **Open the pull request as a Draft** (`gh pr create --draft …`) per `@rules/git/general.mdc` *Draft pull requests*. The inline review loop above is the implementer's pre-PR self-check, **not** the authoritative code review — the authoritative `code-review-github` / `process-code-review` (the `argos` / `athena` ↔ `talos` convergence loop) still runs **after** the PR exists, so at creation time the PR is not yet ready to merge and agents will keep working on it. It is promoted out of Draft (`gh pr ready`) by `@skills/process-code-review/SKILL.md` once that review converges to 0 Critical + 0 Moderate.
+- Create the pull request with:
   - clear description of the change
   - reference to the original issue
   - testing instructions
@@ -204,12 +220,16 @@ The non-technical report must be understandable by non-technical testers and pro
 - **Risk areas and edge cases:** specific scenarios the tester should focus on to catch potential regressions or unexpected behavior
 - **Pre-existing fixes also covered by this PR (when any):** plain-language one-line summary per pre-existing fix commit produced by *Pre-existing issue handling*, plus a one-line "what to re-verify" hint per fix so the tester knows the additional regression surface to validate. Omit the bullet entirely when no pre-existing fix landed.
 
+### Compound memory (record durable lessons)
+
+After the reviews converged (no Critical / Moderate) and the reports are posted, run `@skills/record-project-memory/SKILL.md` with the converged task context and the PR link. It writes to the project memory file (`docs/memory/PROJECT_MEMORY.md`) **only** the lessons that clear the promotion bar in `@rules/compound-engineering/general.mdc` *Compound Memory (per project)* — a trivial task records nothing. This is how a review finding or a non-obvious decision from this PR stops recurring on the next task.
+
 ### GitHub-specific follow-up
 - If the original repository uses a `ready for review` (or equivalent) label, apply it to the source issue once the PR is open to signal it is ready for reviewers. Skip this step when the project does not use such labels.
 
 ### JIRA-specific follow-up
 - Link the created PR back to the JIRA issue.
-- Do not change the JIRA issue status — per `@rules/jira/general.mdc`, status transitions are handled by humans only.
+- Once the PR is open, move the issue to the project's Code Review status by running `skills/code-review-jira/scripts/transition-to-code-review.sh <KEY|URL>`. This is the second sanctioned status transition (the first is the In Progress claim at the start of work via `skills/code-review-jira/scripts/transition-to-in-progress.sh`; per `@rules/jira/general.mdc`); the helper refuses any non-review target and only reports success after confirming the issue actually reached the review column. When it exits 5 — the review-status name differs for this project and could not be auto-resolved — discover the real name via the JIRA MCP server's available-transitions and re-run with it as the `STATUS` argument, or ask a human. Perform no other status transition; all others remain human-only.
 
 ### Bugsnag-specific follow-up
 - The created PR is linked through the Bugsnag error's existing GitHub integration (`linkedIssues[]`); do not invent a second link.
@@ -232,6 +252,7 @@ The non-technical report must be understandable by non-technical testers and pro
 - Technical report posted on the GitHub PR
 - Non-technical report posted on the original issue tracker
 - For JIRA issues: PR is linked back and a summary comment is posted
+- Durable lessons (if any cleared the promotion bar) were recorded into the project memory file via `@skills/record-project-memory/SKILL.md`
 
 ## Output Humanization
 - Use [blader/humanizer](https://github.com/blader/humanizer) for all skill outputs to keep the text natural and human-friendly.
