@@ -56,7 +56,7 @@ vendor/bin/phpcbf --standard=vendor/pekral/phpcs-rules/ruleset.xml src/
 ## ⚙️ Configuration
 
 - Rules can be extended and customized in `ruleset.xml`.
-- Supports PHP 8.4+.
+- Supports PHP 8.5+.
 - Easy integration with CI/CD (GitHub Actions, GitLab CI, ...).
 
 ---
