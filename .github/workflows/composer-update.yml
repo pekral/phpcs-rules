@@ -13,6 +13,9 @@ jobs:
   update:
     name: Update Dependencies
     runs-on: ubuntu-latest
+    env:
+      # Read access to the private agentic-vibes/laravel-agent-skills repository.
+      COMPOSER_AUTH: '{"github-oauth":{"github.com":"${{ secrets.AGENTIC_VIBES_TOKEN }}"}}'
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
