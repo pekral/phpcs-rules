@@ -1,6 +1,5 @@
 /.idea
 /.claude
-.cursor/*
 /vendor
 .DS_Store
 tests/.DS_Store
