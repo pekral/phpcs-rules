@@ -29,6 +29,9 @@ jobs:
 
       - name: Install dependencies
         run: composer install --prefer-dist --no-progress --no-suggest
+        env:
+          # Read access to the private agentic-vibes/laravel-agent-skills repository.
+          COMPOSER_AUTH: '{"github-oauth":{"github.com":"${{ secrets.AGENTIC_VIBES_TOKEN }}"}}'
 
       - name: PHP tests
         run: composer test

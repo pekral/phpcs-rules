@@ -40,7 +40,7 @@
     }
   ],
   "scripts": {
-    "build": "vendor/bin/cursor-rules install --force --editor=claude && composer fix && composer rector && composer check && composer check-unused-sniffs && composer phpstan && composer test && git gone",
+    "build": "vendor/bin/agent-skills install --force && composer fix && composer rector && composer check && composer check-unused-sniffs && composer phpstan && composer test && git gone",
     "phpstan": "vendor/bin/phpstan analyse src/ --level=max --memory-limit=1G",
     "rector": "rector process src/ tests/ --config=vendor/pekral/rector-rules/rector.php --dry-run",
     "check": "vendor/bin/phpcs --standard=ruleset.xml Examples/ src/ tests/",
@@ -60,7 +60,7 @@
     "illuminate/collections": "^13.23.0",
     "phpunit/phpunit": "^13.2.6",
     "mockery/mockery": "^1.6.12",
-    "pekral/cursor-rules": "dev-master",
+    "agentic-vibes/laravel-agent-skills": "dev-master",
     "pekral/phpstan-rules": "dev-master",
     "pekral/rector-rules": "dev-master"
   },
@@ -80,7 +80,13 @@
     "allow-plugins": {
       "dealerdirect/phpcodesniffer-composer-installer": true,
       "phpstan/extension-installer": true,
-      "pekral/cursor-rules": true
+      "agentic-vibes/laravel-agent-skills": true
     }
-  }
+  },
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/agentic-vibes/laravel-agent-skills.git"
+    }
+  ]
 }
