@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 
 ---
 
+## [Unreleased]
+### Changed
+- Minimum required PHP version lowered to 8.4 — `composer.json` now requires `php: ^8.4` (before: `^8.5`). The ruleset and the build tooling use no PHP 8.5 feature.
+- CI runs every check (tests, PHPCS, PHPStan, Rector, unused-sniffs) on PHP 8.4 and 8.5 again.
+
 ## [0.5.0] - 2026-06-29
 ### Changed
 - **BREAKING: Minimum required PHP version raised to 8.5** — `composer.json` now requires `php: ^8.5`. Projects still on PHP 8.4 should stay on the 0.4.x line.
