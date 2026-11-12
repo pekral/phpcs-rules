@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Report a security vulnerability
+    url: https://github.com/pekral/phpcs-rules/security/advisories/new
+    about: Please report security vulnerabilities privately instead of opening a public issue — see SECURITY.md.
+  - name: Bug in Slevomat Coding Standard itself
+    url: https://github.com/slevomat/coding-standard/issues
+    about: A sniff that crashes or misreports code regardless of configuration is an upstream bug. This repository only selects and configures which sniffs run.
