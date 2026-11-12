@@ -1,0 +1,65 @@
+name: Bug report
+description: Report a rule in the ruleset that reports or fixes code incorrectly
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        This package ships no sniffs of its own — `ruleset.xml` selects and configures sniffs from
+        Slevomat Coding Standard. Open this issue when a rule should be configured, excluded, or skipped for
+        certain paths **for everyone**. You can always override a rule in your own `ruleset.xml`.
+
+        A sniff that crashes, or reports correct code as wrong regardless of configuration, is a bug in
+        [Slevomat Coding Standard itself](https://github.com/slevomat/coding-standard/issues). Report it there.
+
+  - type: input
+    id: rule
+    attributes:
+      label: Rule
+      description: The sniff code from the PHPCS report.
+      placeholder: SlevomatCodingStandard.Arrays.AlphabeticallySortedByKeys
+    validations:
+      required: true
+
+  - type: textarea
+    id: code
+    attributes:
+      label: Code
+      description: The smallest piece of code that reproduces the problem.
+      render: php
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+      description: What PHPCS reported, or what `phpcbf` changed.
+      render: shell
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      description: What you expected instead, and why.
+    validations:
+      required: true
+
+  - type: input
+    id: command
+    attributes:
+      label: Exact command you ran
+      placeholder: "vendor/bin/phpcs --standard=vendor/pekral/phpcs-rules/ruleset.xml src/"
+    validations:
+      required: true
+
+  - type: input
+    id: versions
+    attributes:
+      label: Versions
+      placeholder: "pekral/phpcs-rules 0.5.0, slevomat/coding-standard 8.x, PHP 8.4.x"
+    validations:
+      required: true
