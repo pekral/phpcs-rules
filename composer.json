@@ -40,7 +40,7 @@
     }
   ],
   "scripts": {
-    "build": "vendor/bin/cursor-rules install --force --editor=claude && composer fix && composer rector && composer check && composer check-unused-sniffs && composer phpstan && composer test && git gone",
+    "build": "composer fix && composer rector && composer check && composer check-unused-sniffs && composer phpstan && composer test && git gone",
     "phpstan": "vendor/bin/phpstan analyse src/ --level=max --memory-limit=1G",
     "rector": "rector process src/ tests/ --config=vendor/pekral/rector-rules/rector.php --dry-run",
     "check": "vendor/bin/phpcs --standard=ruleset.xml Examples/ src/ tests/",
